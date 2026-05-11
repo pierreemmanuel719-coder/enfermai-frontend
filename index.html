@@ -5,221 +5,514 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EnferMAI 2.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/tabler-icons.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
---bg:#0a0f1e;--bg2:#111827;--bg3:#1a2236;--bg4:#222d42;
---border:#2a3652;--border2:#3a4a6a;
---text:#e8edf8;--text2:#8fa3c8;--text3:#5a7099;
---teal:#00d4a8;--teal2:#00a882;--teal3:#007a5e;--tealbg:rgba(0,212,168,.08);
---blue:#4a9eff;--bluebg:rgba(74,158,255,.08);
---red:#ff5a6e;--redbg:rgba(255,90,110,.08);
---amber:#ffaa3a;--amberbg:rgba(255,170,58,.08);
---green:#4ade80;--greenbg:rgba(74,222,128,.08);
---purple:#a78bfa;--purplebg:rgba(167,139,250,.08);
---radius:12px;--radius2:8px;--radius3:20px;
---font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+  --bg:#060d1a;
+  --surface:rgba(13,23,41,0.75);
+  --surface-solid:#0d1729;
+  --surface2:rgba(20,31,53,0.8);
+  --surface3:#1b2940;
+  --border:rgba(99,132,195,0.12);
+  --border2:rgba(99,132,195,0.22);
+  --text:#e2eaf8;
+  --text2:#8ba4cc;
+  --text3:#4d6490;
+  --teal:#00e5b0;
+  --teal2:#00b88a;
+  --teal3:#007a5e;
+  --tealbg:rgba(0,229,176,0.07);
+  --tealb:rgba(0,229,176,0.18);
+  --blue:#4d9fff;
+  --bluebg:rgba(77,159,255,0.08);
+  --red:#ff4f6d;
+  --redbg:rgba(255,79,109,0.08);
+  --amber:#ffb140;
+  --amberbg:rgba(255,177,64,0.08);
+  --green:#3ddc84;
+  --greenbg:rgba(61,220,132,0.08);
+  --purple:#a78bfa;
+  --purplebg:rgba(167,139,250,0.08);
+  --r:12px;--r2:8px;--r3:18px;
+  --font:'Sora',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --sidebar:230px;
+  --topbar:58px;
 }
-body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:600px;overflow-x:hidden;font-size:14px;line-height:1.5;letter-spacing:-0.01em}
-.screen{display:none;min-height:600px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:13.5px;line-height:1.5;letter-spacing:-0.01em;overflow-x:hidden}
+.screen{display:none;min-height:100vh}
 .screen.active{display:flex;flex-direction:column}
 
+/* ══════════════════════════════
+   LOGIN — GLOWY WAVES
+══════════════════════════════ */
 #login{align-items:center;justify-content:center;background:var(--bg);position:relative;overflow:hidden}
-.login-glow{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,168,.1),transparent 70%);top:50%;left:50%;transform:translate(-50%,-60%);pointer-events:none}
-.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:40px;width:360px;position:relative;z-index:1}
-.logo-mark{display:flex;align-items:center;gap:10px;margin-bottom:32px;justify-content:center}
-.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--teal),var(--blue));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff}
-.logo-text{font-size:24px;font-weight:600;letter-spacing:-0.04em}
-.logo-text span{color:var(--teal)}
-.login-title{font-size:13px;color:var(--text2);text-align:center;margin-bottom:28px;letter-spacing:0.01em;font-weight:400}
+
+/* canvas waves */
+#login-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+
+/* ambient glows */
+.login-glow{position:absolute;inset:0;pointer-events:none;z-index:1}
+.login-glow::before{content:'';position:absolute;left:50%;top:0;width:600px;height:600px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse,rgba(0,229,176,0.07) 0%,transparent 70%);filter:blur(40px)}
+.login-glow::after{content:'';position:absolute;right:-100px;bottom:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(ellipse,rgba(77,159,255,0.05) 0%,transparent 70%);filter:blur(40px)}
+
+.login-box{
+  background:rgba(13,23,41,0.72);
+  border:1px solid rgba(99,132,195,0.22);
+  border-radius:24px;
+  padding:46px 44px;
+  width:390px;
+  position:relative;
+  z-index:2;
+  box-shadow:0 40px 80px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.04);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+}
+
+/* shimmer top edge */
+.login-box::before{
+  content:'';position:absolute;top:0;left:20%;right:20%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,229,176,0.5),transparent);
+  border-radius:50%;
+}
+
+.login-logo{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:8px}
+.login-logo-icon{
+  width:46px;height:46px;
+  background:linear-gradient(135deg,var(--teal2),var(--blue));
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:21px;color:#fff;position:relative;
+  box-shadow:0 0 24px rgba(0,229,176,0.35);
+}
+.login-logo-icon::after{content:'';position:absolute;inset:-2px;border-radius:16px;background:linear-gradient(135deg,var(--teal),var(--blue));z-index:-1;opacity:0.3;filter:blur(8px)}
+.login-logo-text{font-size:27px;font-weight:700;letter-spacing:-0.05em}
+.login-logo-text span{color:var(--teal)}
+
+.login-badge{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(0,229,176,0.08);
+  border:1px solid rgba(0,229,176,0.2);
+  border-radius:20px;padding:4px 14px;
+  font-size:11px;font-weight:600;color:var(--teal);
+  letter-spacing:0.06em;width:fit-content;
+  margin:0 auto 26px;
+}
+.login-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0;animation:pulse 2s infinite}
+
+/* pill bar */
+.login-pills{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.login-pill{font-size:10.5px;font-weight:500;color:var(--text2);border:1px solid var(--border);border-radius:20px;padding:3px 11px;background:rgba(255,255,255,0.02);letter-spacing:0.03em}
+
+.login-sub{font-size:12.5px;color:var(--text2);text-align:center;margin-bottom:24px;line-height:1.6;font-weight:300}
+.demo-bar{background:rgba(0,229,176,0.06);border:1px solid rgba(0,229,176,0.15);border-radius:var(--r2);padding:10px 14px;font-size:12px;color:var(--teal2);margin-bottom:22px;display:flex;align-items:center;gap:8px}
 .field{margin-bottom:16px}
-.field label{display:block;font-size:11px;color:var(--text3);margin-bottom:6px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase}
-.field input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);padding:11px 14px;color:var(--text);font-size:14px;font-family:var(--font);outline:none;transition:border .2s;letter-spacing:-0.01em}
-.field input:focus{border-color:var(--teal)}
+.field label{display:block;font-size:10.5px;color:var(--text3);margin-bottom:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase}
+.field input,.field select{
+  width:100%;
+  background:rgba(20,31,53,0.7);
+  border:1px solid rgba(99,132,195,0.14);
+  border-radius:var(--r2);
+  padding:12px 15px;
+  color:var(--text);
+  font-size:13.5px;font-family:var(--font);
+  outline:none;
+  transition:border .2s,background .2s,box-shadow .2s;
+  backdrop-filter:blur(8px);
+}
+.field input:focus,.field select:focus{
+  border-color:var(--teal);
+  background:rgba(27,41,64,0.8);
+  box-shadow:0 0 0 3px rgba(0,229,176,0.08);
+}
 .field input::placeholder{color:var(--text3);font-weight:300}
-.btn-primary{width:100%;background:linear-gradient(135deg,var(--teal2),var(--blue));border:none;border-radius:var(--radius2);padding:13px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font);transition:opacity .2s;margin-top:4px;letter-spacing:-0.01em}
-.btn-primary:hover{opacity:.88}
-.login-note{text-align:center;font-size:12px;color:var(--text3);margin-top:20px;line-height:1.6;font-weight:300}
-.login-note a{color:var(--teal);text-decoration:none;font-weight:500}
-.demo-hint{background:var(--tealbg);border:1px solid rgba(0,212,168,.2);border-radius:var(--radius2);padding:10px 14px;font-size:12px;color:var(--text2);margin-bottom:20px;text-align:center;font-weight:400}
 
-.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.topbar-logo{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:600;letter-spacing:-0.04em}
-.topbar-logo .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.topbar-right{display:flex;align-items:center;gap:12px}
-.avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--blue));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;cursor:pointer;letter-spacing:0.02em}
-.icon-btn{background:none;border:none;color:var(--text2);cursor:pointer;width:32px;height:32px;border-radius:var(--radius2);display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s}
-.icon-btn:hover{background:var(--bg3);color:var(--text)}
-.tag{font-size:10px;font-weight:600;background:var(--tealbg);color:var(--teal);border:1px solid rgba(0,212,168,.25);border-radius:20px;padding:2px 8px;letter-spacing:0.06em}
+.btn-login{
+  width:100%;
+  background:linear-gradient(135deg,var(--teal2),#0080ff);
+  border:none;border-radius:var(--r2);
+  padding:14px;color:#fff;
+  font-size:14px;font-weight:600;
+  cursor:pointer;font-family:var(--font);
+  margin-top:6px;letter-spacing:-0.01em;
+  position:relative;overflow:hidden;
+  transition:opacity .2s,transform .15s,box-shadow .2s;
+  box-shadow:0 4px 20px rgba(0,184,138,0.35);
+}
+.btn-login::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.12),transparent);opacity:0;transition:opacity .2s}
+.btn-login:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(0,184,138,0.45)}
+.btn-login:hover::before{opacity:1}
+.btn-login:active{transform:translateY(0)}
+.login-note{text-align:center;font-size:12px;color:var(--text3);margin-top:18px;line-height:1.7;font-weight:300}
+.login-note a{color:var(--teal);text-decoration:none}
 
-.app-body{display:flex;flex:1;overflow:hidden}
-.sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--border);padding:16px 12px;display:flex;flex-direction:column;gap:2px;flex-shrink:0}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius2);cursor:pointer;font-size:13px;color:var(--text2);transition:background .15s,color .15s;border:none;background:none;width:100%;text-align:left;font-family:var(--font);font-weight:400;letter-spacing:-0.01em}
-.nav-item i{font-size:15px;width:18px}
-.nav-item:hover{background:var(--bg3);color:var(--text)}
-.nav-item.active{background:var(--tealbg);color:var(--teal);border:1px solid rgba(0,212,168,.15);font-weight:500}
-.nav-section{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;padding:10px 12px 4px;margin-top:6px}
-.sidebar-bottom{margin-top:auto;padding-top:12px;border-top:1px solid var(--border)}
+/* ══════════════════════════════
+   APP SHELL
+══════════════════════════════ */
+.topbar{
+  height:var(--topbar);
+  background:rgba(13,23,41,0.85);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  padding:0 20px;gap:16px;flex-shrink:0;
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+.topbar-brand{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:700;letter-spacing:-0.04em;width:var(--sidebar);padding-left:4px}
+.topbar-brand-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite;flex-shrink:0;box-shadow:0 0 8px rgba(0,229,176,0.6)}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,229,176,0.4)}50%{opacity:.6;box-shadow:0 0 0 5px rgba(0,229,176,0)}}
+.topbar-brand span{color:var(--teal)}
+.topbar-badge{font-size:9.5px;font-weight:700;background:var(--teal);color:#060d1a;border-radius:20px;padding:2px 7px;letter-spacing:0.05em}
+.topbar-center{flex:1;display:flex;align-items:center;gap:8px}
+.topbar-search{
+  background:rgba(20,31,53,0.7);
+  border:1px solid var(--border);
+  border-radius:9px;padding:8px 14px;
+  color:var(--text2);font-size:12.5px;
+  font-family:var(--font);outline:none;width:260px;
+  transition:border .2s,box-shadow .2s;
+  backdrop-filter:blur(8px);
+}
+.topbar-search:focus{border-color:var(--teal);color:var(--text);box-shadow:0 0 0 3px rgba(0,229,176,0.07)}
+.topbar-search::placeholder{color:var(--text3)}
+.topbar-right{display:flex;align-items:center;gap:6px}
+.tbtn{background:none;border:1px solid transparent;color:var(--text2);cursor:pointer;width:34px;height:34px;border-radius:var(--r2);display:flex;align-items:center;justify-content:center;transition:all .15s;font-size:16px}
+.tbtn:hover{background:rgba(255,255,255,0.05);border-color:var(--border);color:var(--text)}
+.notif-badge{position:relative}
+.notif-badge::after{content:'2';position:absolute;top:-2px;right:-2px;width:14px;height:14px;border-radius:50%;background:var(--red);color:#fff;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:var(--font)}
+.avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--blue));display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;cursor:pointer;letter-spacing:0.04em;border:2px solid rgba(0,229,176,0.3);box-shadow:0 0 12px rgba(0,229,176,0.2)}
 
-.content{flex:1;overflow-y:auto;padding:24px;background:var(--bg)}
+.app-body{display:flex;flex:1;height:calc(100vh - var(--topbar));overflow:hidden}
+
+/* ══════════════════════════════
+   SIDEBAR — GLASS
+══════════════════════════════ */
+.sidebar{
+  width:var(--sidebar);
+  background:rgba(13,23,41,0.7);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;flex-shrink:0;
+  overflow-y:auto;padding:16px 10px;
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+.nav-section{font-size:9.5px;font-weight:700;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;padding:10px 10px 5px;margin-top:4px}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:var(--r2);
+  cursor:pointer;font-size:13px;color:var(--text2);
+  transition:all .15s;border:1px solid transparent;
+  background:none;width:100%;text-align:left;
+  font-family:var(--font);font-weight:400;
+}
+.nav-item i{font-size:16px;width:18px;flex-shrink:0}
+.nav-item:hover{background:rgba(255,255,255,0.04);color:var(--text)}
+.nav-item.active{
+  background:rgba(0,229,176,0.08);
+  color:var(--teal);
+  border-color:rgba(0,229,176,0.2);
+  box-shadow:inset 0 0 20px rgba(0,229,176,0.03);
+}
+.nav-item.active i{color:var(--teal)}
+.sidebar-spacer{flex:1}
+.sidebar-divider{height:1px;background:var(--border);margin:10px 0}
+
+/* ══════════════════════════════
+   CONTENT
+══════════════════════════════ */
+.content{flex:1;overflow-y:auto;padding:28px;background:var(--bg)}
 .page{display:none}
 .page.active{display:block}
 
-.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
-.page-title{font-size:19px;font-weight:600;letter-spacing:-0.03em}
-.page-sub{font-size:12px;color:var(--text2);margin-top:3px;font-weight:400;letter-spacing:0}
-.btn-sm{background:var(--teal2);border:none;border-radius:var(--radius2);padding:8px 16px;color:#fff;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font);display:flex;align-items:center;gap:6px;transition:opacity .2s;letter-spacing:-0.01em}
-.btn-sm:hover{opacity:.85}
-.btn-outline{background:none;border:1px solid var(--border2);border-radius:var(--radius2);padding:8px 16px;color:var(--text2);font-size:13px;font-weight:400;cursor:pointer;font-family:var(--font);display:flex;align-items:center;gap:6px;transition:all .2s;letter-spacing:-0.01em}
-.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+/* ── PAGE HEADER ── */
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px}
+.ph-title{font-size:20px;font-weight:700;letter-spacing:-0.04em;line-height:1.2}
+.ph-sub{font-size:12px;color:var(--text2);margin-top:4px;font-weight:300}
+.ph-actions{display:flex;gap:8px;flex-shrink:0}
 
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
-.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px}
-.stat-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.09em;font-weight:600;margin-bottom:8px}
-.stat-val{font-size:28px;font-weight:600;line-height:1;letter-spacing:-0.04em;font-family:var(--mono)}
-.stat-trend{font-size:11px;color:var(--text2);margin-top:6px;font-weight:400}
-.stat-trend.up{color:var(--green)}
-.stat-trend.alert{color:var(--amber)}
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:var(--r2);font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font);transition:all .2s;border:none;letter-spacing:-0.01em}
+.btn-primary{
+  background:linear-gradient(135deg,var(--teal2),#0070e8);
+  color:#fff;
+  box-shadow:0 3px 14px rgba(0,184,138,0.3);
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,184,138,0.4)}
+.btn-ghost{
+  background:rgba(20,31,53,0.7);
+  border:1px solid var(--border2);
+  color:var(--text2);
+  backdrop-filter:blur(8px);
+}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+.btn-danger{background:var(--redbg);border:1px solid rgba(255,79,109,0.2);color:var(--red)}
 
-.table-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.table-head{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.table-title{font-size:13px;font-weight:600;letter-spacing:-0.02em}
-.search-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);padding:7px 12px;color:var(--text);font-size:12px;font-family:var(--font);outline:none;width:200px;letter-spacing:-0.01em}
-.search-box::placeholder{color:var(--text3);font-weight:300}
-.search-box:focus{border-color:var(--teal)}
+/* ── STATS ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.stat{
+  background:rgba(13,23,41,0.7);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:18px 20px;
+  position:relative;overflow:hidden;
+  backdrop-filter:blur(12px);
+  transition:border-color .2s,transform .2s;
+}
+.stat:hover{border-color:var(--border2);transform:translateY(-2px)}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,var(--teal)),transparent);opacity:0.7}
+.stat::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(255,255,255,0.02),transparent);pointer-events:none}
+.stat-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:600;margin-bottom:10px}
+.stat-value{font-size:30px;font-weight:700;font-family:var(--mono);letter-spacing:-0.04em;line-height:1}
+.stat-trend{font-size:11px;color:var(--text2);margin-top:8px;font-weight:400}
+.stat-trend.good{color:var(--green)}
+.stat-trend.warn{color:var(--amber)}
+.stat-trend.bad{color:var(--red)}
+
+/* ── TABLE CARD ── */
+.card{
+  background:rgba(13,23,41,0.7);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  overflow:hidden;
+  backdrop-filter:blur(12px);
+}
+.card-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card-title{font-size:13.5px;font-weight:600;letter-spacing:-0.02em}
+.search{background:rgba(20,31,53,0.7);border:1px solid var(--border);border-radius:var(--r2);padding:8px 13px;color:var(--text);font-size:12.5px;font-family:var(--font);outline:none;width:210px;backdrop-filter:blur(8px)}
+.search::placeholder{color:var(--text3)}
+.search:focus{border-color:var(--teal)}
 table{width:100%;border-collapse:collapse}
-th{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;padding:10px 20px;text-align:left;border-bottom:1px solid var(--border)}
-td{padding:12px 20px;font-size:13px;border-bottom:1px solid rgba(42,54,82,.5);font-weight:400;letter-spacing:-0.01em}
+th{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.09em;font-weight:600;padding:11px 20px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:13px 20px;font-size:13px;border-bottom:1px solid rgba(99,132,195,0.06);font-weight:400}
 tr:last-child td{border-bottom:none}
-tr:hover td{background:rgba(255,255,255,.02)}
-.badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;letter-spacing:0.03em}
-.badge-red{background:var(--redbg);color:var(--red);border:1px solid rgba(255,90,110,.2)}
-.badge-amber{background:var(--amberbg);color:var(--amber);border:1px solid rgba(255,170,58,.2)}
-.badge-green{background:var(--greenbg);color:var(--green);border:1px solid rgba(74,222,128,.2)}
-.badge-blue{background:var(--bluebg);color:var(--blue);border:1px solid rgba(74,158,255,.2)}
-.badge-teal{background:var(--tealbg);color:var(--teal);border:1px solid rgba(0,212,168,.2)}
-.row-action{color:var(--teal);cursor:pointer;font-size:11px;font-weight:500;text-decoration:none;background:none;border:none;font-family:var(--font);padding:4px 8px;border-radius:6px;transition:background .15s;letter-spacing:0}
-.row-action:hover{background:var(--tealbg)}
+tr:hover td{background:rgba(255,255,255,.025)}
+.chip{display:inline-flex;align-items:center;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;letter-spacing:0.03em}
+.chip-red{background:var(--redbg);color:var(--red);border:1px solid rgba(255,79,109,.18)}
+.chip-amber{background:var(--amberbg);color:var(--amber);border:1px solid rgba(255,177,64,.18)}
+.chip-green{background:var(--greenbg);color:var(--green);border:1px solid rgba(61,220,132,.18)}
+.chip-blue{background:var(--bluebg);color:var(--blue);border:1px solid rgba(77,159,255,.18)}
+.chip-teal{background:var(--tealbg);color:var(--teal);border:1px solid var(--tealb)}
+.row-btn{color:var(--teal);cursor:pointer;font-size:11.5px;font-weight:500;background:none;border:none;font-family:var(--font);padding:5px 9px;border-radius:6px;transition:background .15s}
+.row-btn:hover{background:var(--tealbg)}
 
-.detail-grid{display:grid;grid-template-columns:280px 1fr;gap:16px}
-.patient-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
-.patient-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--blue));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;margin-bottom:14px;letter-spacing:0.02em}
-.patient-name{font-size:15px;font-weight:600;margin-bottom:3px;letter-spacing:-0.02em}
-.patient-meta{font-size:12px;color:var(--text2);margin-bottom:14px;font-weight:400}
-.info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;letter-spacing:-0.01em}
-.info-row:last-child{border-bottom:none}
-.info-label{color:var(--text3);font-weight:400}
+/* ── PATIENT DETAIL ── */
+.detail-layout{display:grid;grid-template-columns:270px 1fr;gap:16px}
+.pcard{
+  background:rgba(13,23,41,0.7);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:22px;
+  backdrop-filter:blur(12px);
+}
+.pavatar{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--blue));display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;margin-bottom:16px;box-shadow:0 0 20px rgba(0,229,176,0.25)}
+.pname{font-size:15.5px;font-weight:600;letter-spacing:-0.03em}
+.pmeta{font-size:12px;color:var(--text2);margin-top:3px;margin-bottom:16px}
+.pinfo{border-top:1px solid var(--border);padding-top:14px}
+.prow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px}
+.prow:last-child{border-bottom:none}
+.plabel{color:var(--text3)}
 
 .vitals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
-.vital-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
-.vital-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;display:flex;align-items:center;gap:6px;font-weight:600}
-.vital-val{font-size:24px;font-weight:500;font-family:var(--mono);letter-spacing:-0.02em}
-.vital-unit{font-size:11px;color:var(--text3);margin-left:2px;font-family:var(--font);font-weight:400;letter-spacing:0}
-.vital-status{font-size:11px;margin-top:5px;font-weight:500;letter-spacing:-0.01em}
+.vcard{
+  background:rgba(13,23,41,0.7);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:14px 16px;
+  backdrop-filter:blur(8px);
+  transition:border-color .2s;
+}
+.vcard:hover{border-color:var(--border2)}
+.vlabel{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:9px;display:flex;align-items:center;gap:6px}
+.vval{font-size:23px;font-weight:500;font-family:var(--mono);letter-spacing:-0.03em}
+.vunit{font-size:11px;color:var(--text3);font-family:var(--font);font-weight:400;margin-left:2px}
+.vstatus{font-size:11px;margin-top:5px;font-weight:500}
 
-.tabs{display:flex;gap:4px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:4px;margin-bottom:16px}
-.tab{flex:1;text-align:center;padding:8px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;color:var(--text2);transition:all .2s;border:none;background:none;font-family:var(--font);letter-spacing:-0.01em}
-.tab.active{background:var(--bg3);color:var(--teal);border:1px solid rgba(0,212,168,.2)}
+.tabs{display:flex;gap:3px;background:rgba(13,23,41,0.7);border:1px solid var(--border);border-radius:var(--r2);padding:4px;margin-bottom:14px;backdrop-filter:blur(8px)}
+.tab{flex:1;text-align:center;padding:8px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;color:var(--text2);transition:all .2s;border:1px solid transparent;background:none;font-family:var(--font)}
+.tab.active{background:rgba(27,41,64,0.9);color:var(--teal);border-color:rgba(0,229,176,0.2)}
 
-.ai-panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.ai-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
-.ai-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 1.5s infinite}
-.ai-header-text{font-size:13px;font-weight:600;letter-spacing:-0.02em}
-.ai-sub{font-size:11px;color:var(--text3);font-weight:400}
-.ai-body{padding:16px 18px}
-.ai-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);padding:10px 14px;color:var(--text);font-size:13px;font-family:var(--font);outline:none;resize:vertical;min-height:80px;transition:border .2s;line-height:1.6;letter-spacing:-0.01em}
-.ai-input:focus{border-color:var(--teal)}
-.ai-input::placeholder{color:var(--text3);font-weight:300}
+/* ── AI PANEL ── */
+.ai-panel{
+  background:rgba(13,23,41,0.7);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  overflow:hidden;
+  backdrop-filter:blur(12px);
+}
+.ai-head{
+  padding:16px 20px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+  background:linear-gradient(90deg,rgba(0,229,176,0.04),transparent);
+  position:relative;
+}
+.ai-head::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,229,176,0.3),transparent)}
+.ai-pulse{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 1.5s infinite;box-shadow:0 0 8px rgba(0,229,176,0.6)}
+.ai-head-label{font-size:13.5px;font-weight:600}
+.ai-head-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.ai-body{padding:18px 20px}
+.ai-area{width:100%;background:rgba(20,31,53,0.7);border:1px solid var(--border);border-radius:var(--r2);padding:12px 14px;color:var(--text);font-size:13px;font-family:var(--font);outline:none;resize:vertical;min-height:90px;transition:border .2s;line-height:1.65;backdrop-filter:blur(8px)}
+.ai-area:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,229,176,0.07)}
+.ai-area::placeholder{color:var(--text3);font-weight:300}
 .ai-actions{display:flex;gap:8px;margin-top:10px}
-.ai-response{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);padding:14px;margin-top:14px;font-size:13px;line-height:1.75;color:var(--text2);letter-spacing:-0.005em}
-.ai-response h4{color:var(--text);font-size:12px;font-weight:600;margin-bottom:6px;margin-top:12px;letter-spacing:0.06em;text-transform:uppercase}
-.ai-response h4:first-child{margin-top:0}
-.loading-dots{display:flex;gap:6px;padding:20px;justify-content:center}
-.loading-dots span{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:dot-bounce 1.2s infinite}
-.loading-dots span:nth-child(2){animation-delay:.2s}
-.loading-dots span:nth-child(3){animation-delay:.4s}
-@keyframes dot-bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}}
+.ai-result{background:rgba(20,31,53,0.7);border:1px solid var(--border);border-radius:var(--r2);padding:16px;margin-top:14px;font-size:13px;line-height:1.8;color:var(--text2);backdrop-filter:blur(8px)}
+.ai-result h4{color:var(--text);font-size:11px;font-weight:700;margin:14px 0 6px;letter-spacing:0.08em;text-transform:uppercase}
+.ai-result h4:first-child{margin-top:0}
+.dots{display:flex;gap:6px;padding:22px;justify-content:center}
+.dots span{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:bounce 1.2s infinite}
+.dots span:nth-child(2){animation-delay:.2s}
+.dots span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-9px)}}
 
-.soap-block{margin-bottom:12px}
-.soap-letter{font-size:24px;font-weight:600;color:var(--teal);font-family:var(--mono);line-height:1;margin-bottom:3px;letter-spacing:-0.02em}
-.soap-name{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.09em;margin-bottom:8px;font-weight:600}
-.soap-area{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);padding:10px 14px;color:var(--text);font-size:13px;font-family:var(--font);outline:none;resize:vertical;min-height:60px;transition:border .2s;line-height:1.65;letter-spacing:-0.01em}
-.soap-area:focus{border-color:var(--teal)}
+/* ── SOAP ── */
+.soap-block{margin-bottom:14px}
+.soap-letter{font-size:28px;font-weight:700;color:var(--teal);font-family:var(--mono);line-height:1;margin-bottom:2px;text-shadow:0 0 20px rgba(0,229,176,0.4)}
+.soap-name{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:600;margin-bottom:9px}
+.soap-area{width:100%;background:rgba(20,31,53,0.7);border:1px solid var(--border);border-radius:var(--r2);padding:11px 14px;color:var(--text);font-size:13px;font-family:var(--font);outline:none;resize:vertical;min-height:62px;transition:border .2s;line-height:1.65;backdrop-filter:blur(8px)}
+.soap-area:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,229,176,0.07)}
 
-.timeline{position:relative;padding-left:24px}
-.timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:1px;background:var(--border)}
-.tl-item{position:relative;margin-bottom:18px}
-.tl-dot{position:absolute;left:-21px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--teal);border:2px solid var(--bg)}
-.tl-time{font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:3px;letter-spacing:0.02em}
-.tl-text{font-size:13px;color:var(--text2);letter-spacing:-0.01em;line-height:1.5}
-.tl-tag{font-size:10px;font-weight:600;color:var(--teal);background:var(--tealbg);border-radius:20px;padding:1px 7px;margin-left:6px;letter-spacing:0.03em}
+/* ── TIMELINE ── */
+.timeline{position:relative;padding-left:26px}
+.timeline::before{content:'';position:absolute;left:7px;top:4px;bottom:4px;width:1px;background:linear-gradient(to bottom,var(--teal),transparent)}
+.tl-item{position:relative;margin-bottom:22px}
+.tl-dot{position:absolute;left:-22px;top:4px;width:11px;height:11px;border-radius:50%;background:var(--teal);border:2px solid var(--bg);box-shadow:0 0 8px rgba(0,229,176,0.4)}
+.tl-time{font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:4px}
+.tl-text{font-size:13px;color:var(--text2);line-height:1.55}
+.tl-chip{font-size:10px;font-weight:600;color:var(--teal);background:var(--tealbg);border-radius:20px;padding:2px 8px;margin-left:7px}
 
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center}
-.modal-overlay.open{display:flex}
-.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;width:440px;max-height:90vh;overflow-y:auto}
-.modal-title{font-size:15px;font-weight:600;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;letter-spacing:-0.02em}
+/* ── MODAL ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(12px);z-index:100;display:none;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal{
+  background:rgba(13,23,41,0.9);
+  border:1px solid rgba(99,132,195,0.25);
+  border-radius:22px;
+  padding:32px;
+  width:460px;max-height:90vh;overflow-y:auto;
+  box-shadow:0 40px 80px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.04);
+  backdrop-filter:blur(28px);
+  position:relative;
+}
+.modal::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(0,229,176,0.4),transparent)}
+.modal-title{font-size:15px;font-weight:700;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;letter-spacing:-0.03em}
 
-.notif{position:fixed;bottom:20px;right:20px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:var(--radius2);padding:12px 16px;font-size:12px;color:var(--text);z-index:200;transform:translateX(200%);transition:transform .3s;max-width:280px;letter-spacing:-0.01em;font-weight:400}
-.notif.show{transform:translateX(0)}
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:22px;right:22px;
+  background:rgba(13,23,41,0.9);
+  border:1px solid var(--border2);
+  border-left:3px solid var(--teal);
+  border-radius:var(--r2);
+  padding:13px 18px;font-size:12.5px;color:var(--text);
+  z-index:200;
+  transform:translateX(120%);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+  max-width:290px;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+  backdrop-filter:blur(20px);
+}
+.toast.show{transform:translateX(0)}
 
-::-webkit-scrollbar{width:4px}
+/* ── CONFIG ── */
+.cfg-section{
+  background:rgba(13,23,41,0.7);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:22px;margin-bottom:14px;
+  backdrop-filter:blur(12px);
+}
+.cfg-title{font-size:11px;font-weight:700;color:var(--text2);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.cfg-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border)}
+.cfg-row:last-child{border-bottom:none}
+.cfg-label{font-size:13px;font-weight:400}
+.cfg-desc{font-size:11px;color:var(--text3);margin-top:2px}
+.toggle{width:38px;height:21px;border-radius:21px;background:var(--surface3);cursor:pointer;position:relative;transition:background .2s;border:1px solid var(--border2);flex-shrink:0}
+.toggle.on{background:var(--teal2);border-color:transparent;box-shadow:0 0 10px rgba(0,184,138,0.3)}
+.toggle::after{content:'';position:absolute;width:15px;height:15px;border-radius:50%;background:#fff;top:2px;left:2px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.toggle.on::after{transform:translateX(17px)}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+::-webkit-scrollbar-thumb{background:rgba(99,132,195,0.2);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--border2)}
 
-.config-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
-.config-title{font-size:12px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--text);letter-spacing:0.04em;text-transform:uppercase}
-.config-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
-.config-row:last-child{border-bottom:none}
-.config-label{font-size:13px;font-weight:400;letter-spacing:-0.01em}
-.config-desc{font-size:11px;color:var(--text3);margin-top:2px;font-weight:400}
-.toggle{width:36px;height:20px;border-radius:20px;background:var(--border2);cursor:pointer;position:relative;transition:background .2s;border:none;flex-shrink:0}
-.toggle.on{background:var(--teal2)}
-.toggle::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:#fff;top:3px;left:3px;transition:transform .2s}
-.toggle.on::after{transform:translateX(16px)}
+/* ── ALERT BAR ── */
+.alert-bar{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,79,109,0.06);
+  border:1px solid rgba(255,79,109,.2);
+  border-radius:var(--r2);
+  padding:12px 16px;font-size:12px;color:var(--text2);line-height:1.6;
+  backdrop-filter:blur(8px);
+}
+.alert-bar i{color:var(--red);font-size:16px;flex-shrink:0}
+
+/* ── FADE IN ANIMATION ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.page.active{animation:fadeUp .35s ease both}
 </style>
 </head>
 <body>
 
+<!-- ════════════════════════════════════
+     LOGIN — GLOWY WAVES HERO
+════════════════════════════════════ -->
 <div id="login" class="screen active">
-<div class="login-glow"></div>
-<div class="login-box">
-  <div class="logo-mark">
-    <div class="logo-icon"><i class="ti ti-heartbeat"></i></div>
-    <div class="logo-text">Enfer<span>MAI</span></div>
+  <canvas id="login-canvas"></canvas>
+  <div class="login-glow"></div>
+
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-icon"><i class="ti ti-heartbeat"></i></div>
+      <div class="login-logo-text">Enfer<span>MAI</span></div>
+    </div>
+    <div class="login-badge">Plataforma Clínica v2.0</div>
+
+    <div class="login-pills">
+      <span class="login-pill">IA Clínica</span>
+      <span class="login-pill">SOAP Automatizado</span>
+      <span class="login-pill">Tempo Real</span>
+    </div>
+
+    <p class="login-sub">Assistente inteligente de enfermagem<br>com IA clínica integrada</p>
+    <div class="field">
+      <label>E-mail institucional</label>
+      <input type="email" id="login-email" placeholder="enf.nome@hospital.com.br">
+    </div>
+    <div class="field">
+      <label>Senha</label>
+      <input type="password" id="login-pass" placeholder="••••••••">
+    </div>
+    <button class="btn-login" onclick="doLogin()"><i class="ti ti-login" style="margin-right:6px"></i>Entrar no EnferMAI</button>
+    <p class="login-note">Acesso restrito a profissionais cadastrados.<br><a href="#">Fale com o administrador</a></p>
   </div>
-  <p class="login-title">Assistente clínico inteligente para enfermagem</p>
-  <div class="demo-hint">Demo — use qualquer e-mail e senha</div>
-  <div class="field">
-    <label>E-mail institucional</label>
-    <input type="email" id="login-email" placeholder="enf.nome@hospital.com.br">
-  </div>
-  <div class="field">
-    <label>Senha</label>
-    <input type="password" id="login-pass" placeholder="••••••••">
-  </div>
-  <button class="btn-primary" onclick="doLogin()">Entrar no EnferMAI</button>
-  <p class="login-note">Acesso restrito a profissionais cadastrados.<br>Dúvidas? <a href="#">Fale com o administrador</a></p>
-</div>
 </div>
 
+<!-- ════════════════════════════════════
+     APP
+════════════════════════════════════ -->
 <div id="app" class="screen" style="flex-direction:column">
   <div class="topbar">
-    <div class="topbar-logo">
-      <i class="ti ti-heartbeat" style="color:var(--teal);font-size:18px"></i>
-      EnferMAI
-      <span class="tag">2.0</span>
+    <div class="topbar-brand">
+      <div class="topbar-brand-dot"></div>
+      Enfer<span>MAI</span>
+      <span class="topbar-badge">2.0</span>
+    </div>
+    <div class="topbar-center">
+      <input class="topbar-search" placeholder="Buscar paciente, leito, diagnóstico..." oninput="filterTable(this.value)">
     </div>
     <div class="topbar-right">
-      <button class="icon-btn" onclick="showNotif('2 alertas de sinais vitais')"><i class="ti ti-bell" style="font-size:17px"></i></button>
-      <button class="icon-btn"><i class="ti ti-help-circle" style="font-size:17px"></i></button>
-      <div class="avatar" onclick="navTo('config')" title="Configurações">EN</div>
+      <button class="tbtn notif-badge" onclick="showToast('2 alertas de sinais vitais')"><i class="ti ti-bell"></i></button>
+      <button class="tbtn"><i class="ti ti-help-circle"></i></button>
+      <div style="width:1px;height:20px;background:var(--border);margin:0 4px"></div>
+      <div class="avatar" onclick="navTo('config')" id="user-avatar" title="Configurações">EN</div>
     </div>
   </div>
   <div class="app-body">
-    <div class="sidebar">
+    <nav class="sidebar">
       <div class="nav-section">Clínica</div>
       <button class="nav-item active" onclick="navTo('dashboard',this)"><i class="ti ti-layout-dashboard"></i>Dashboard</button>
       <button class="nav-item" onclick="navTo('pacientes',this)"><i class="ti ti-users"></i>Pacientes</button>
@@ -227,58 +520,56 @@ tr:hover td{background:rgba(255,255,255,.02)}
       <div class="nav-section">Registros</div>
       <button class="nav-item" onclick="navTo('soap',this)"><i class="ti ti-file-text"></i>Evolução SOAP</button>
       <button class="nav-item" onclick="navTo('timeline',this)"><i class="ti ti-timeline"></i>Linha do Tempo</button>
-      <div class="sidebar-bottom">
-        <button class="nav-item" onclick="navTo('config',this)"><i class="ti ti-settings"></i>Configurações</button>
-        <button class="nav-item" style="color:var(--red)" onclick="doLogout()"><i class="ti ti-logout"></i>Sair</button>
-      </div>
-    </div>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-divider"></div>
+      <button class="nav-item" onclick="navTo('config',this)"><i class="ti ti-settings"></i>Configurações</button>
+      <button class="nav-item" style="color:var(--red)" onclick="doLogout()"><i class="ti ti-logout"></i>Sair</button>
+    </nav>
+
     <div class="content">
 
+      <!-- DASHBOARD -->
       <div id="page-dashboard" class="page active">
-        <div class="page-header">
+        <div class="ph">
           <div>
-            <div class="page-title">Bom dia, Enf. Ana</div>
-            <div class="page-sub">Plantão hoje · UTI Cardiológica · 6 pacientes ativos</div>
+            <div class="ph-title" id="dash-greeting">Bom dia, Enf.</div>
+            <div class="ph-sub" id="dash-sub">Plantão hoje · UTI · 0 pacientes ativos</div>
           </div>
-          <button class="btn-sm" onclick="openModal()"><i class="ti ti-plus"></i>Novo Paciente</button>
+          <div class="ph-actions">
+            <button class="btn btn-primary" onclick="openModal()"><i class="ti ti-plus"></i>Novo Paciente</button>
+          </div>
         </div>
-        <div class="stats-grid">
-          <div class="stat-card">
+        <div class="stats-row">
+          <div class="stat" style="--accent:var(--teal)">
             <div class="stat-label">Pacientes Ativos</div>
-            <div class="stat-val" style="color:var(--teal)">6</div>
-            <div class="stat-trend up">↑ 1 admissão hoje</div>
+            <div class="stat-value" id="stat-total" style="color:var(--teal)">0</div>
+            <div class="stat-trend good" id="stat-trend-adm">↑ 0 admissão hoje</div>
           </div>
-          <div class="stat-card">
+          <div class="stat" style="--accent:var(--red)">
             <div class="stat-label">Alertas Vitais</div>
-            <div class="stat-val" style="color:var(--red)">2</div>
-            <div class="stat-trend alert">Revisão necessária</div>
+            <div class="stat-value" style="color:var(--red)">2</div>
+            <div class="stat-trend warn">Revisão necessária</div>
           </div>
-          <div class="stat-card">
+          <div class="stat" style="--accent:var(--blue)">
             <div class="stat-label">Análises IA Hoje</div>
-            <div class="stat-val" style="color:var(--blue)">4</div>
+            <div class="stat-value" style="color:var(--blue)">4</div>
             <div class="stat-trend">Última: 14:30</div>
           </div>
-          <div class="stat-card">
+          <div class="stat" style="--accent:var(--amber)">
             <div class="stat-label">Alta Prevista</div>
-            <div class="stat-val" style="color:var(--amber)">1</div>
-            <div class="stat-trend">Amanhã, manhã</div>
+            <div class="stat-value" id="stat-alta" style="color:var(--amber)">0</div>
+            <div class="stat-trend">Próximas 24h</div>
           </div>
         </div>
-        <div class="table-card">
-          <div class="table-head">
-            <span class="table-title">Pacientes no Setor</span>
-            <input class="search-box" placeholder="Buscar paciente..." oninput="filterTable(this.value)">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Pacientes no Setor</span>
+            <input class="search" placeholder="Buscar..." oninput="filterTable(this.value)">
           </div>
-          <table id="patient-table">
+          <table>
             <thead>
               <tr>
-                <th>Paciente</th>
-                <th>Leito</th>
-                <th>Idade</th>
-                <th>Triagem</th>
-                <th>PA / FC</th>
-                <th>Status</th>
-                <th></th>
+                <th>Paciente</th><th>Leito</th><th>Idade</th><th>Triagem</th><th>PA / FC</th><th>Status</th><th></th>
               </tr>
             </thead>
             <tbody id="patient-tbody"></tbody>
@@ -286,73 +577,74 @@ tr:hover td{background:rgba(255,255,255,.02)}
         </div>
       </div>
 
+      <!-- PACIENTES -->
       <div id="page-pacientes" class="page">
-        <div class="page-header">
+        <div class="ph">
           <div>
-            <div class="page-title">Detalhes do Paciente</div>
-            <div class="page-sub" id="patient-detail-sub">Selecione um paciente na lista</div>
+            <div class="ph-title">Detalhes do Paciente</div>
+            <div class="ph-sub" id="patient-detail-sub">Selecione um paciente na lista</div>
           </div>
-          <div style="display:flex;gap:8px">
-            <button class="btn-outline" onclick="navTo('dashboard')"><i class="ti ti-arrow-left"></i>Voltar</button>
-            <button class="btn-sm" onclick="navTo('ia')"><i class="ti ti-sparkles"></i>Analisar com IA</button>
+          <div class="ph-actions">
+            <button class="btn btn-ghost" onclick="navTo('dashboard')"><i class="ti ti-arrow-left"></i>Voltar</button>
+            <button class="btn btn-primary" onclick="navTo('ia')"><i class="ti ti-sparkles"></i>Analisar com IA</button>
           </div>
         </div>
-        <div class="detail-grid">
+        <div class="detail-layout">
           <div>
-            <div class="patient-card">
-              <div class="patient-avatar" id="det-avatar">JS</div>
-              <div class="patient-name" id="det-name">João Silva</div>
-              <div class="patient-meta" id="det-meta">58a · M · Leito 14-A</div>
-              <div id="det-info">
-                <div class="info-row"><span class="info-label">Admissão</span><span>10/05/2026</span></div>
-                <div class="info-row"><span class="info-label">Médico Resp.</span><span>Dr. Santos</span></div>
-                <div class="info-row"><span class="info-label">Setor</span><span>UTI Card.</span></div>
-                <div class="info-row"><span class="info-label">Diagnóstico</span><span>IAM SSST</span></div>
-                <div class="info-row"><span class="info-label">Alergias</span><span style="color:var(--red)">AAS</span></div>
+            <div class="pcard">
+              <div class="pavatar" id="det-avatar">JS</div>
+              <div class="pname" id="det-name">João Silva</div>
+              <div class="pmeta" id="det-meta">58a · M · Leito 14-A</div>
+              <div class="pinfo" id="det-info">
+                <div class="prow"><span class="plabel">Admissão</span><span>10/05/2026</span></div>
+                <div class="prow"><span class="plabel">Médico Resp.</span><span>Dr. Santos</span></div>
+                <div class="prow"><span class="plabel">Setor</span><span>UTI Card.</span></div>
+                <div class="prow"><span class="plabel">Diagnóstico</span><span>IAM SSST</span></div>
+                <div class="prow"><span class="plabel">Alergias</span><span style="color:var(--red)">AAS</span></div>
               </div>
             </div>
-            <div class="patient-card" style="margin-top:12px">
-              <div style="font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:12px">Comorbidades</div>
+            <div class="pcard" style="margin-top:12px">
+              <div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Comorbidades</div>
               <div style="display:flex;flex-wrap:wrap;gap:6px">
-                <span class="badge badge-amber">HAS</span>
-                <span class="badge badge-amber">DM2</span>
-                <span class="badge badge-red">Tabagismo</span>
-                <span class="badge badge-blue">Dislipidemia</span>
+                <span class="chip chip-amber">HAS</span>
+                <span class="chip chip-amber">DM2</span>
+                <span class="chip chip-red">Tabagismo</span>
+                <span class="chip chip-blue">Dislipidemia</span>
               </div>
             </div>
           </div>
           <div>
             <div class="vitals-grid">
-              <div class="vital-card">
-                <div class="vital-label"><i class="ti ti-heart" style="color:var(--red)"></i>Pressão Arterial</div>
-                <div class="vital-val" style="color:var(--red)">150<span class="vital-unit">mmHg</span></div>
-                <div class="vital-status" style="color:var(--amber)">95 diastólica</div>
-                <div class="vital-status" style="color:var(--red)">Hipertensão Gr II</div>
+              <div class="vcard">
+                <div class="vlabel"><i class="ti ti-heart" style="color:var(--red)"></i>Pressão Arterial</div>
+                <div class="vval" style="color:var(--red)">150<span class="vunit">mmHg</span></div>
+                <div class="vstatus" style="color:var(--amber)">95 diastólica</div>
+                <div class="vstatus" style="color:var(--text3);font-size:10.5px;font-weight:400;margin-top:2px">Hipertensão Gr II</div>
               </div>
-              <div class="vital-card">
-                <div class="vital-label"><i class="ti ti-activity" style="color:var(--green)"></i>Freq. Cardíaca</div>
-                <div class="vital-val" style="color:var(--green)">88<span class="vital-unit">bpm</span></div>
-                <div class="vital-status" style="color:var(--green)">Normal</div>
+              <div class="vcard">
+                <div class="vlabel"><i class="ti ti-activity" style="color:var(--green)"></i>Freq. Cardíaca</div>
+                <div class="vval" style="color:var(--green)">88<span class="vunit">bpm</span></div>
+                <div class="vstatus" style="color:var(--green)">Normal</div>
               </div>
-              <div class="vital-card">
-                <div class="vital-label"><i class="ti ti-thermometer" style="color:var(--amber)"></i>Temperatura</div>
-                <div class="vital-val" style="color:var(--amber)">37.9<span class="vital-unit">°C</span></div>
-                <div class="vital-status" style="color:var(--amber)">Subfebril</div>
+              <div class="vcard">
+                <div class="vlabel"><i class="ti ti-thermometer" style="color:var(--amber)"></i>Temperatura</div>
+                <div class="vval" style="color:var(--amber)">37.9<span class="vunit">°C</span></div>
+                <div class="vstatus" style="color:var(--amber)">Subfebril</div>
               </div>
-              <div class="vital-card">
-                <div class="vital-label"><i class="ti ti-lungs" style="color:var(--blue)"></i>SpO₂</div>
-                <div class="vital-val" style="color:var(--blue)">97<span class="vital-unit">%</span></div>
-                <div class="vital-status" style="color:var(--green)">Ar ambiente</div>
+              <div class="vcard">
+                <div class="vlabel"><i class="ti ti-lungs" style="color:var(--blue)"></i>SpO₂</div>
+                <div class="vval" style="color:var(--blue)">97<span class="vunit">%</span></div>
+                <div class="vstatus" style="color:var(--green)">Ar ambiente</div>
               </div>
-              <div class="vital-card">
-                <div class="vital-label"><i class="ti ti-wind" style="color:var(--teal)"></i>Freq. Resp.</div>
-                <div class="vital-val" style="color:var(--teal)">18<span class="vital-unit">irpm</span></div>
-                <div class="vital-status" style="color:var(--green)">Normal</div>
+              <div class="vcard">
+                <div class="vlabel"><i class="ti ti-wind" style="color:var(--teal)"></i>Freq. Resp.</div>
+                <div class="vval" style="color:var(--teal)">18<span class="vunit">irpm</span></div>
+                <div class="vstatus" style="color:var(--green)">Normal</div>
               </div>
-              <div class="vital-card">
-                <div class="vital-label"><i class="ti ti-droplet" style="color:var(--purple)"></i>Glicemia</div>
-                <div class="vital-val" style="color:var(--purple)">182<span class="vital-unit">mg/dL</span></div>
-                <div class="vital-status" style="color:var(--red)">Acima do alvo</div>
+              <div class="vcard">
+                <div class="vlabel"><i class="ti ti-droplet" style="color:var(--purple)"></i>Glicemia</div>
+                <div class="vval" style="color:var(--purple)">182<span class="vunit">mg/dL</span></div>
+                <div class="vstatus" style="color:var(--red)">Acima do alvo</div>
               </div>
             </div>
             <div class="tabs">
@@ -360,85 +652,88 @@ tr:hover td{background:rgba(255,255,255,.02)}
               <button class="tab" onclick="switchTab(this,'meds')">Medicamentos</button>
               <button class="tab" onclick="switchTab(this,'exames')">Exames</button>
             </div>
-            <div id="tab-anamnese" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;font-size:13px;color:var(--text2);line-height:1.75;letter-spacing:-0.005em">
-              Paciente masculino, 58 anos, admitido na emergência com <strong style="color:var(--text);font-weight:500">dor precordial em aperto</strong> com irradiação para MSE, há 2 horas. Refere dispneia associada e sudorese fria. Nega trauma. HAS e DM2 de longa data, em uso de metformina e losartana. Tabagismo por 30 anos, parou há 5 anos. Pai faleceu de IAM aos 62 anos.
+            <div id="tab-anamnese" style="background:rgba(13,23,41,0.7);border:1px solid var(--border);border-radius:var(--r);padding:18px;font-size:13px;color:var(--text2);line-height:1.8;backdrop-filter:blur(8px)">
+              Paciente masculino, 58 anos, admitido na emergência com <strong style="color:var(--text);font-weight:500">dor precordial em aperto</strong> com irradiação para MSE, há 2 horas. Refere dispneia associada e sudorese fria. HAS e DM2 de longa data, tabagismo por 30 anos, parou há 5 anos. Pai faleceu de IAM aos 62 anos.
             </div>
-            <div id="tab-meds" style="display:none;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px">
-              <div style="font-size:13px;color:var(--text2);letter-spacing:-0.01em">
-                <div style="padding:9px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between"><span>Metformina 500mg</span><span style="color:var(--text3)">2× ao dia</span></div>
-                <div style="padding:9px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between"><span>Losartana 50mg</span><span style="color:var(--text3)">1× ao dia</span></div>
-                <div style="padding:9px 0;display:flex;justify-content:space-between"><span>Heparina 5000UI SC</span><span style="color:var(--teal);font-weight:500">Prescrito hoje</span></div>
+            <div id="tab-meds" style="display:none;background:rgba(13,23,41,0.7);border:1px solid var(--border);border-radius:var(--r);padding:18px;backdrop-filter:blur(8px)">
+              <div style="font-size:13px;color:var(--text2)">
+                <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between"><span>Metformina 500mg</span><span style="color:var(--text3)">2× ao dia</span></div>
+                <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between"><span>Losartana 50mg</span><span style="color:var(--text3)">1× ao dia</span></div>
+                <div style="padding:10px 0;display:flex;justify-content:space-between"><span>Heparina 5000UI SC</span><span style="color:var(--teal);font-weight:500">Prescrito hoje</span></div>
               </div>
             </div>
-            <div id="tab-exames" style="display:none;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px">
-              <div style="font-size:13px;color:var(--text2);letter-spacing:-0.01em">
-                <div style="padding:9px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><span>ECG 12 derivações</span><span class="badge badge-amber">Pendente</span></div>
-                <div style="padding:9px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><span>Troponina I</span><span class="badge badge-red">Elevada: 2.4</span></div>
-                <div style="padding:9px 0;display:flex;justify-content:space-between;align-items:center"><span>Hemograma</span><span class="badge badge-green">Coletado</span></div>
+            <div id="tab-exames" style="display:none;background:rgba(13,23,41,0.7);border:1px solid var(--border);border-radius:var(--r);padding:18px;backdrop-filter:blur(8px)">
+              <div style="font-size:13px;color:var(--text2)">
+                <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><span>ECG 12 derivações</span><span class="chip chip-amber">Pendente</span></div>
+                <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><span>Troponina I</span><span class="chip chip-red">Elevada: 2.4</span></div>
+                <div style="padding:10px 0;display:flex;justify-content:space-between;align-items:center"><span>Hemograma</span><span class="chip chip-green">Coletado</span></div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- IA -->
       <div id="page-ia" class="page">
-        <div class="page-header">
+        <div class="ph">
           <div>
-            <div class="page-title">Análise IA Clínica</div>
-            <div class="page-sub">Powered by Claude · Apoio clínico — não substitui julgamento médico</div>
+            <div class="ph-title">Análise IA Clínica</div>
+            <div class="ph-sub">Powered by Claude · Apoio clínico — não substitui julgamento médico</div>
           </div>
         </div>
         <div class="ai-panel">
-          <div class="ai-header">
-            <div class="ai-dot"></div>
+          <div class="ai-head">
+            <div class="ai-pulse"></div>
             <div>
-              <div class="ai-header-text">EnferMAI IA — Claude Sonnet</div>
-              <div class="ai-sub">Descreva o quadro clínico para análise</div>
+              <div class="ai-head-label">EnferMAI IA — Claude Sonnet</div>
+              <div class="ai-head-sub">Descreva o quadro clínico para análise detalhada</div>
             </div>
           </div>
           <div class="ai-body">
-            <textarea class="ai-input" id="ai-prompt" placeholder="Descreva o quadro do paciente: sinais vitais, sintomas, histórico...">Paciente masculino, 58 anos, HAS e DM2. Admitido com dor precordial em aperto irradiando para MSE há 2h. Sudorese fria e dispneia. PA: 150/95mmHg, FC: 88bpm, SpO2: 97%, Temp: 37.9°C, Glicemia: 182mg/dL. Troponina I elevada (2.4). Em uso de metformina e losartana.</textarea>
+            <textarea class="ai-area" id="ai-prompt" placeholder="Descreva o quadro do paciente: sinais vitais, sintomas, histórico...">Paciente masculino, 58 anos, HAS e DM2. Admitido com dor precordial em aperto irradiando para MSE há 2h. Sudorese fria e dispneia. PA: 150/95mmHg, FC: 88bpm, SpO2: 97%, Temp: 37.9°C, Glicemia: 182mg/dL. Troponina I elevada (2.4). Em uso de metformina e losartana.</textarea>
             <div class="ai-actions">
-              <button class="btn-sm" onclick="runAI()" id="ai-btn"><i class="ti ti-sparkles"></i>Analisar com IA</button>
-              <button class="btn-outline" onclick="document.getElementById('ai-prompt').value=''"><i class="ti ti-refresh"></i>Limpar</button>
+              <button class="btn btn-primary" onclick="runAI()" id="ai-btn"><i class="ti ti-sparkles"></i>Analisar com IA</button>
+              <button class="btn btn-ghost" onclick="document.getElementById('ai-prompt').value=''"><i class="ti ti-refresh"></i>Limpar</button>
             </div>
             <div id="ai-result" style="display:none"></div>
           </div>
         </div>
-        <div style="margin-top:12px;background:var(--redbg);border:1px solid rgba(255,90,110,.2);border-radius:var(--radius2);padding:12px 16px;font-size:12px;color:var(--text2);line-height:1.6;letter-spacing:-0.005em">
-          <i class="ti ti-alert-triangle" style="color:var(--red)"></i> <strong style="color:var(--red);font-weight:600">Aviso:</strong> Este sistema é apenas de apoio clínico. Não substitui avaliação médica, prescrição ou protocolos institucionais.
+        <div class="alert-bar" style="margin-top:12px">
+          <i class="ti ti-alert-triangle"></i>
+          <span><strong style="color:var(--red)">Aviso:</strong> Este sistema é apenas de apoio clínico. Não substitui avaliação médica, prescrição ou protocolos institucionais.</span>
         </div>
       </div>
 
+      <!-- SOAP -->
       <div id="page-soap" class="page">
-        <div class="page-header">
+        <div class="ph">
           <div>
-            <div class="page-title">Evolução SOAP de Enfermagem</div>
-            <div class="page-sub">João Silva · Leito 14-A · 10/05/2026</div>
+            <div class="ph-title">Evolução SOAP de Enfermagem</div>
+            <div class="ph-sub">João Silva · Leito 14-A · <span id="soap-date"></span></div>
           </div>
-          <div style="display:flex;gap:8px">
-            <button class="btn-sm" onclick="generateSOAP()"><i class="ti ti-sparkles"></i>Gerar com IA</button>
-            <button class="btn-sm" style="background:var(--teal3)" onclick="saveSOAP()"><i class="ti ti-device-floppy"></i>Salvar</button>
-            <button class="btn-outline" onclick="copySOAP()"><i class="ti ti-copy"></i>Copiar</button>
+          <div class="ph-actions">
+            <button class="btn btn-primary" onclick="generateSOAP()"><i class="ti ti-sparkles"></i>Gerar com IA</button>
+            <button class="btn btn-ghost" onclick="saveSOAP()"><i class="ti ti-device-floppy"></i>Salvar</button>
+            <button class="btn btn-ghost" onclick="copySOAP()"><i class="ti ti-copy"></i>Copiar</button>
           </div>
         </div>
-        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px">
+        <div class="card" style="padding:26px">
           <div class="soap-block">
             <div class="soap-letter">S</div>
             <div class="soap-name">Subjetivo — o que o paciente relata</div>
             <textarea class="soap-area" id="soap-s">Paciente refere dor precordial 6/10, piora ao esforço. Refere ansiedade e medo do diagnóstico.</textarea>
           </div>
-          <div class="soap-block" style="margin-top:16px">
+          <div class="soap-block" style="margin-top:18px">
             <div class="soap-letter">O</div>
             <div class="soap-name">Objetivo — dados mensuráveis</div>
             <textarea class="soap-area" id="soap-o">PA: 150/95mmHg, FC: 88bpm, T: 37,9°C, SpO₂: 97% AA. Consciente, orientado, pálido, diaforético. Troponina elevada.</textarea>
           </div>
-          <div class="soap-block" style="margin-top:16px">
+          <div class="soap-block" style="margin-top:18px">
             <div class="soap-letter">A</div>
             <div class="soap-name">Avaliação — diagnósticos de enfermagem</div>
             <textarea class="soap-area" id="soap-a">Risco para baixo débito cardíaco. Dor aguda r/c possível isquemia miocárdica. Ansiedade situacional.</textarea>
           </div>
-          <div class="soap-block" style="margin-top:16px">
+          <div class="soap-block" style="margin-top:18px">
             <div class="soap-letter">P</div>
             <div class="soap-name">Plano — intervenções de enfermagem</div>
             <textarea class="soap-area" id="soap-p" style="min-height:100px">Monitorizar SVs a cada 15 min. Realizar ECG 12 derivações. Colher troponina e hemograma. AVP 18G. O₂ 4L/min em máscara. Repouso absoluto. Comunicar médico imediatamente.</textarea>
@@ -446,54 +741,58 @@ tr:hover td{background:rgba(255,255,255,.02)}
         </div>
       </div>
 
+      <!-- TIMELINE -->
       <div id="page-timeline" class="page">
-        <div class="page-header">
+        <div class="ph">
           <div>
-            <div class="page-title">Linha do Tempo</div>
-            <div class="page-sub">João Silva · Atendimento de hoje</div>
+            <div class="ph-title">Linha do Tempo</div>
+            <div class="ph-sub">João Silva · Atendimento de hoje</div>
           </div>
-          <button class="btn-sm" onclick="addEvent()"><i class="ti ti-plus"></i>Registrar Evento</button>
+          <div class="ph-actions">
+            <button class="btn btn-primary" onclick="addEvent()"><i class="ti ti-plus"></i>Registrar Evento</button>
+          </div>
         </div>
-        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px">
+        <div class="card" style="padding:26px">
           <div class="timeline" id="timeline-list">
-            <div class="tl-item"><div class="tl-dot" style="background:var(--red)"></div><div class="tl-time">08:30</div><div class="tl-text">Admissão realizada <span class="tl-tag">Triagem Vermelho</span></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--red)"></div><div class="tl-time">08:30</div><div class="tl-text">Admissão realizada <span class="tl-chip">Triagem Vermelho</span></div></div>
             <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">08:38</div><div class="tl-text">Sinais vitais registrados · PA 150/95 — alerta ativo</div></div>
             <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">08:45</div><div class="tl-text">Anamnese registrada · Sintomas: dor precordial + dispneia</div></div>
-            <div class="tl-item"><div class="tl-dot" style="background:var(--blue)"></div><div class="tl-time">08:47</div><div class="tl-text">Análise IA executada <span class="tl-tag">3 hipóteses geradas</span></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--blue)"></div><div class="tl-time">08:47</div><div class="tl-text">Análise IA executada <span class="tl-chip">3 hipóteses geradas</span></div></div>
             <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div class="tl-time">09:10</div><div class="tl-text">Troponina I coletada · Resultado: 2.4 (elevado)</div></div>
           </div>
         </div>
       </div>
 
+      <!-- CONFIG -->
       <div id="page-config" class="page">
-        <div class="page-header">
+        <div class="ph">
           <div>
-            <div class="page-title">Configurações</div>
-            <div class="page-sub">Perfil profissional e preferências do sistema</div>
+            <div class="ph-title">Configurações</div>
+            <div class="ph-sub">Perfil profissional e preferências</div>
           </div>
         </div>
-        <div class="config-section">
-          <div class="config-title"><i class="ti ti-user" style="color:var(--teal)"></i>Perfil Profissional</div>
-          <div class="config-row"><div><div class="config-label">Nome</div><div class="config-desc">Ana Beatriz Ferreira</div></div></div>
-          <div class="config-row"><div><div class="config-label">COREN</div><div class="config-desc">SP-456789</div></div></div>
-          <div class="config-row"><div><div class="config-label">Função</div><div class="config-desc">Enfermeira · UTI Cardiológica</div></div></div>
+        <div class="cfg-section">
+          <div class="cfg-title"><i class="ti ti-user" style="color:var(--teal)"></i>Perfil Profissional</div>
+          <div class="cfg-row"><div><div class="cfg-label" id="cfg-nome">—</div><div class="cfg-desc">Nome completo</div></div></div>
+          <div class="cfg-row"><div><div class="cfg-label" id="cfg-coren">—</div><div class="cfg-desc">COREN</div></div></div>
+          <div class="cfg-row"><div><div class="cfg-label" id="cfg-funcao">—</div><div class="cfg-desc">Função · Setor</div></div></div>
         </div>
-        <div class="config-section">
-          <div class="config-title"><i class="ti ti-key" style="color:var(--blue)"></i>Integração IA</div>
-          <div class="config-row"><div><div class="config-label">API Key do Claude</div><div class="config-desc">Gerenciada pelo backend — sem exposição</div></div><span class="badge badge-green">Ativa</span></div>
-          <div class="config-row"><div><div class="config-label">Modelo</div><div class="config-desc">claude-sonnet-4-20250514</div></div></div>
+        <div class="cfg-section">
+          <div class="cfg-title"><i class="ti ti-key" style="color:var(--blue)"></i>Integração IA</div>
+          <div class="cfg-row"><div><div class="cfg-label">API Key do Claude</div><div class="cfg-desc">Gerenciada pelo backend — sem exposição</div></div><span class="chip chip-green">Ativa</span></div>
+          <div class="cfg-row"><div><div class="cfg-label">Modelo</div><div class="cfg-desc">claude-sonnet-4-20250514</div></div></div>
         </div>
-        <div class="config-section">
-          <div class="config-title"><i class="ti ti-bell" style="color:var(--amber)"></i>Notificações</div>
-          <div class="config-row"><div><div class="config-label">Alertas de sinais vitais críticos</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
-          <div class="config-row"><div><div class="config-label">Lembretes de reavaliação</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
-          <div class="config-row"><div><div class="config-label">Notificações de alta prevista</div></div><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
+        <div class="cfg-section">
+          <div class="cfg-title"><i class="ti ti-bell" style="color:var(--amber)"></i>Notificações</div>
+          <div class="cfg-row"><div><div class="cfg-label">Alertas de sinais vitais críticos</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          <div class="cfg-row"><div><div class="cfg-label">Lembretes de reavaliação</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          <div class="cfg-row"><div><div class="cfg-label">Notificações de alta prevista</div></div><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
         </div>
-        <div class="config-section">
-          <div class="config-title"><i class="ti ti-device-mobile" style="color:var(--purple)"></i>PWA — Instalar no Celular</div>
-          <div style="font-size:13px;color:var(--text2);line-height:1.7;letter-spacing:-0.005em">
-            <strong style="color:var(--text);font-weight:500">iPhone:</strong> Abra no Safari e toque em "Compartilhar → Adicionar à Tela de Início".<br>
-            <strong style="color:var(--text);font-weight:500">Android:</strong> Abra no Chrome e toque em "Instalar app".
+        <div class="cfg-section">
+          <div class="cfg-title"><i class="ti ti-device-mobile" style="color:var(--purple)"></i>PWA — Instalar no Celular</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.8">
+            <strong style="color:var(--text);font-weight:500">iPhone:</strong> Abra no Safari → "Compartilhar → Adicionar à Tela de Início".<br>
+            <strong style="color:var(--text);font-weight:500">Android:</strong> Abra no Chrome → "Instalar app".
           </div>
         </div>
       </div>
@@ -502,87 +801,159 @@ tr:hover td{background:rgba(255,255,255,.02)}
   </div>
 </div>
 
-<div class="modal-overlay" id="modal">
+<!-- MODAL -->
+<div class="overlay" id="modal">
   <div class="modal">
-    <div class="modal-title">Novo Paciente<button class="icon-btn" onclick="closeModal()"><i class="ti ti-x"></i></button></div>
+    <div class="modal-title">Novo Paciente<button class="tbtn" onclick="closeModal()"><i class="ti ti-x"></i></button></div>
     <div class="field"><label>Nome completo</label><input type="text" id="m-nome" placeholder="Nome do paciente"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
       <div class="field"><label>Idade</label><input type="number" id="m-idade" placeholder="Anos"></div>
       <div class="field"><label>Leito</label><input type="text" id="m-leito" placeholder="Ex: 14-A"></div>
     </div>
     <div class="field"><label>Sexo</label>
-      <select id="m-sexo" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);padding:11px 14px;color:var(--text);font-family:var(--font);outline:none;font-size:14px">
+      <select id="m-sexo">
         <option>Masculino</option><option>Feminino</option><option>Outro</option>
       </select>
     </div>
     <div class="field"><label>Triagem Manchester</label>
-      <select id="m-triagem" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);padding:11px 14px;color:var(--text);font-family:var(--font);outline:none;font-size:14px">
+      <select id="m-triagem">
         <option value="red">Vermelho — Emergência</option>
         <option value="orange">Laranja — Muito Urgente</option>
         <option value="yellow">Amarelo — Urgente</option>
         <option value="green" selected>Verde — Pouco Urgente</option>
       </select>
     </div>
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <button class="btn-sm" style="flex:1;justify-content:center" onclick="addPatient()">Cadastrar</button>
-      <button class="btn-outline" style="flex:1;justify-content:center" onclick="closeModal()">Cancelar</button>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="addPatient()">Cadastrar</button>
+      <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="closeModal()">Cancelar</button>
     </div>
   </div>
 </div>
 
-<div class="notif" id="notif"></div>
+<div class="toast" id="toast"></div>
 
 <script>
-// ─── CONFIGURAÇÃO DO BACKEND ─────────────────────────────────────────────────
-// Após fazer deploy, cole aqui a URL do seu backend no Railway/Render:
-const API_BASE = 'https://enfermai-production.up.railway.app';
-// Exemplo: const API_BASE = 'https://enfermai-production.up.railway.app';
+/* ════════════════════════════════════
+   GLOWY WAVES — Login Canvas
+════════════════════════════════════ */
+(function initWaves() {
+  const canvas = document.getElementById('login-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let animId, time = 0;
+  const mouse = { x: 0, y: 0 };
+  const target = { x: 0, y: 0 };
 
-// ─── Estado Global ────────────────────────────────────────────────────────────
+  const waves = [
+    { offset: 0,            amp: 65,  freq: 0.003,  color: 'rgba(0,229,176,',  op: 0.45 },
+    { offset: Math.PI/2,    amp: 85,  freq: 0.0026, color: 'rgba(77,159,255,', op: 0.35 },
+    { offset: Math.PI,      amp: 55,  freq: 0.0034, color: 'rgba(0,184,138,',  op: 0.3  },
+    { offset: Math.PI*1.5,  amp: 75,  freq: 0.0022, color: 'rgba(167,139,250,',op: 0.22 },
+    { offset: Math.PI*2,    amp: 50,  freq: 0.004,  color: 'rgba(0,229,176,',  op: 0.18 },
+  ];
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    mouse.x = target.x = canvas.width  / 2;
+    mouse.y = target.y = canvas.height / 2;
+  }
+
+  function drawWave(w) {
+    ctx.save();
+    ctx.beginPath();
+    const influenceR = 300, influence = 65;
+    for (let x = 0; x <= canvas.width; x += 4) {
+      const dx = x - mouse.x;
+      const dy = canvas.height / 2 - mouse.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      const inf  = Math.max(0, 1 - dist/influenceR);
+      const mfx  = inf * influence * Math.sin(time*0.001 + x*0.01 + w.offset);
+      const y = canvas.height/2
+        + Math.sin(x*w.freq + time*0.002 + w.offset) * w.amp
+        + Math.sin(x*w.freq*0.4 + time*0.003) * (w.amp*0.4)
+        + mfx;
+      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.lineWidth   = 2.5;
+    ctx.strokeStyle = w.color + w.op + ')';
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur  = 32;
+    ctx.shadowColor = w.color + '0.6)';
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function animate() {
+    time++;
+    mouse.x += (target.x - mouse.x) * 0.08;
+    mouse.y += (target.y - mouse.y) * 0.08;
+
+    // deep background gradient
+    const g = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    g.addColorStop(0, '#060d1a');
+    g.addColorStop(1, '#0a1526');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    waves.forEach(drawWave);
+    animId = requestAnimationFrame(animate);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  window.addEventListener('mousemove', e => { target.x = e.clientX; target.y = e.clientY; });
+  window.addEventListener('mouseleave', () => { target.x = canvas.width/2; target.y = canvas.height/2; });
+  animId = requestAnimationFrame(animate);
+
+  // stop animation when login hides (perf)
+  const obs = new MutationObserver(() => {
+    const visible = document.getElementById('login').classList.contains('active');
+    if (!visible && animId) { cancelAnimationFrame(animId); animId = null; }
+    else if (visible && !animId) { animId = requestAnimationFrame(animate); }
+  });
+  obs.observe(document.getElementById('login'), { attributes: true, attributeFilter: ['class'] });
+})();
+
+/* ════════════════════════════════════
+   APP LOGIC (inalterado)
+════════════════════════════════════ */
+const API_BASE = 'https://enfermai-production.up.railway.app';
 let authToken = localStorage.getItem('enfermai_token') || null;
 let currentUser = JSON.parse(localStorage.getItem('enfermai_user') || 'null');
 let patients = [];
 let currentPatientId = null;
+const triage = {red:{label:"Vermelho",cls:"chip-red"},orange:{label:"Laranja",cls:"chip-amber"},yellow:{label:"Amarelo",cls:"chip-amber"},green:{label:"Verde",cls:"chip-green"}};
+const statusCls = {Internado:"chip-blue",Crítico:"chip-red","Alta prev.":"chip-green","Obs.":"chip-teal"};
 
-const triage   = {red:{label:"Vermelho",cls:"badge-red"},orange:{label:"Laranja",cls:"badge-amber"},yellow:{label:"Amarelo",cls:"badge-amber"},green:{label:"Verde",cls:"badge-green"}};
-const statusCls= {Internado:"badge-blue",Crítico:"badge-red","Alta prev.":"badge-green","Obs.":"badge-teal"};
+document.getElementById('soap-date').textContent = new Date().toLocaleDateString('pt-BR');
 
-// ─── API Helper ───────────────────────────────────────────────────────────────
-async function api(path, options = {}) {
-  const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
+async function api(path, options={}) {
+  const headers = {'Content-Type':'application/json',...(options.headers||{})};
   if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
-  const resp = await fetch(`${API_BASE}${path}`, { ...options, headers });
+  const resp = await fetch(`${API_BASE}${path}`, {...options, headers});
   if (resp.status === 401) { doLogout(); return null; }
-  if (!resp.ok) {
-    const err = await resp.json().catch(() => ({}));
-    throw new Error(err.detail || 'Erro no servidor');
-  }
+  if (!resp.ok) { const e = await resp.json().catch(()=>({})); throw new Error(e.detail||'Erro no servidor'); }
   return resp.status === 204 ? null : resp.json();
 }
 
-// ─── Auth ─────────────────────────────────────────────────────────────────────
 async function doLogin() {
   const email = document.getElementById('login-email').value.trim();
   const pass  = document.getElementById('login-pass').value;
-  if (!email || !pass) { showNotif('Preencha e-mail e senha'); return; }
+  if (!email || !pass) { showToast('Preencha e-mail e senha'); return; }
   try {
-    const data = await api('/api/auth/login', {
-      method: 'POST',
-      body: JSON.stringify({ email, password: pass })
-    });
+    const data = await api('/api/auth/login', {method:'POST', body:JSON.stringify({email, password:pass})});
     if (!data) return;
     authToken   = data.access_token;
     currentUser = data.user;
     localStorage.setItem('enfermai_token', authToken);
-    localStorage.setItem('enfermai_user',  JSON.stringify(currentUser));
+    localStorage.setItem('enfermai_user', JSON.stringify(currentUser));
     document.getElementById('login').classList.remove('active');
     document.getElementById('app').classList.add('active');
     updateUserUI();
     await loadPatients();
-    showNotif(`Bem-vinda, ${currentUser.nome.split(' ')[0]}!`);
-  } catch(e) {
-    showNotif(e.message || 'Falha no login');
-  }
+    showToast(`Bem-vindo(a), ${currentUser.nome.split(' ')[0]}! 👋`);
+  } catch(e) { showToast(e.message || 'Falha no login'); }
 }
 
 function doLogout() {
@@ -596,54 +967,54 @@ function doLogout() {
 function updateUserUI() {
   if (!currentUser) return;
   const initials = currentUser.nome.split(' ').slice(0,2).map(n=>n[0]).join('');
-  document.querySelector('.avatar').textContent = initials;
-  document.querySelector('.page-title').textContent = `Bom dia, ${currentUser.nome.split(' ')[0]}`;
-  // Atualizar perfil na config
-  const nome = document.querySelector('.config-row .config-label');
-  if (nome) nome.textContent = currentUser.nome;
+  document.getElementById('user-avatar').textContent = initials;
+  const hour  = new Date().getHours();
+  const greet = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite';
+  document.getElementById('dash-greeting').textContent = `${greet}, ${currentUser.nome.split(' ')[0]}`;
+  if (document.getElementById('cfg-nome')) {
+    document.getElementById('cfg-nome').textContent    = currentUser.nome;
+    document.getElementById('cfg-coren').textContent   = currentUser.coren || '—';
+    document.getElementById('cfg-funcao').textContent  = `${currentUser.funcao||'—'} · ${currentUser.setor||'—'}`;
+  }
 }
 
-// ─── Pacientes ────────────────────────────────────────────────────────────────
 async function loadPatients() {
   try {
     patients = await api('/api/patients/') || [];
     renderTable(patients);
     updateStats();
-  } catch(e) { showNotif('Erro ao carregar pacientes'); }
+  } catch(e) { showToast('Erro ao carregar pacientes'); }
 }
 
 function updateStats() {
-  const total   = patients.length;
-  const criticos = patients.filter(p => p.triagem === 'red' || p.status === 'Crítico').length;
-  const altaPrev = patients.filter(p => p.status === 'Alta prev.').length;
-  document.querySelector('.stats-grid .stat-card:nth-child(1) .stat-val').textContent = total;
-  document.querySelector('.stats-grid .stat-card:nth-child(4) .stat-val').textContent = altaPrev;
-  document.querySelector('.page-sub').textContent = `Plantão hoje · ${currentUser?.setor||'UTI'} · ${total} paciente${total!==1?'s':''} ativo${total!==1?'s':''}`;
+  const total = patients.length;
+  const alta  = patients.filter(p=>p.status==='Alta prev.').length;
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-alta').textContent  = alta;
+  document.getElementById('dash-sub').textContent   = `Plantão hoje · ${currentUser?.setor||'UTI'} · ${total} paciente${total!==1?'s':''} ativo${total!==1?'s':''}`;
 }
 
 function renderTable(data) {
-  document.getElementById('patient-tbody').innerHTML = data.map(p => {
-    const ult = p.vitais && p.vitais.length ? p.vitais[0] : null;
-    const pa  = ult ? `${ult.pa_sistol||'--'}/${ult.pa_diast||'--'}` : '--/--';
-    const fc  = ult ? (ult.fc || '--') : '--';
-    return `<tr>
-      <td><strong style="font-weight:500">${p.nome}</strong></td>
-      <td><span style="font-family:var(--mono);font-size:12px;letter-spacing:0.02em">${p.leito}</span></td>
-      <td>${p.idade||'--'}a · ${p.sexo||'-'}</td>
-      <td><span class="badge ${triage[p.triagem]?.cls||'badge-teal'}">${triage[p.triagem]?.label||p.triagem}</span></td>
-      <td style="font-family:var(--mono);font-size:12px;letter-spacing:0.02em">${pa} / ${fc}</td>
-      <td><span class="badge ${statusCls[p.status]||'badge-blue'}">${p.status}</span></td>
-      <td><button class="row-action" onclick="viewPatient(${p.id})">Ver →</button></td>
-    </tr>`;
-  }).join('');
+  document.getElementById('patient-tbody').innerHTML = !data.length
+    ? `<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--text3)"><i class="ti ti-users" style="font-size:24px;display:block;margin-bottom:8px"></i>Nenhum paciente cadastrado</td></tr>`
+    : data.map(p => {
+      const ult = p.vitais?.length ? p.vitais[0] : null;
+      const pa  = ult ? `${ult.pa_sistol||'--'}/${ult.pa_diast||'--'}` : '--/--';
+      const fc  = ult ? (ult.fc||'--') : '--';
+      return `<tr>
+        <td><strong style="font-weight:500">${p.nome}</strong></td>
+        <td><span style="font-family:var(--mono);font-size:12px">${p.leito}</span></td>
+        <td>${p.idade||'--'}a · ${p.sexo||'-'}</td>
+        <td><span class="chip ${triage[p.triagem]?.cls||'chip-teal'}">${triage[p.triagem]?.label||p.triagem}</span></td>
+        <td style="font-family:var(--mono);font-size:12px">${pa} / ${fc}</td>
+        <td><span class="chip ${statusCls[p.status]||'chip-blue'}">${p.status||'Internado'}</span></td>
+        <td><button class="row-btn" onclick="viewPatient(${p.id})">Ver →</button></td>
+      </tr>`;
+    }).join('');
 }
 
 function filterTable(q) {
-  const filtered = patients.filter(p =>
-    p.nome.toLowerCase().includes(q.toLowerCase()) ||
-    p.leito.toLowerCase().includes(q.toLowerCase())
-  );
-  renderTable(filtered);
+  renderTable(patients.filter(p => p.nome.toLowerCase().includes(q.toLowerCase()) || p.leito.toLowerCase().includes(q.toLowerCase())));
 }
 
 async function viewPatient(id) {
@@ -656,27 +1027,17 @@ async function viewPatient(id) {
     document.getElementById('det-name').textContent   = p.nome;
     document.getElementById('det-meta').textContent   = `${p.idade||'--'}a · ${p.sexo||'-'} · Leito ${p.leito}`;
     document.getElementById('patient-detail-sub').textContent = `${p.nome} · Leito ${p.leito}`;
-    // Sinais vitais
-    const ult = p.vitais && p.vitais.length ? p.vitais[0] : null;
-    if (ult) {
-      document.querySelector('#page-pacientes .vital-val').style.color = ult.pa_sistol >= 140 ? 'var(--red)' : 'var(--green)';
-    }
-    // Anamnese
-    const anamneseEl = document.getElementById('tab-anamnese');
-    if (anamneseEl && p.anamnese) anamneseEl.textContent = p.anamnese;
-    // Pré-preencher o SOAP com o paciente atual
-    document.getElementById('page-soap').querySelector('.page-sub').textContent =
-      `${p.nome} · Leito ${p.leito} · ${new Date().toLocaleDateString('pt-BR')}`;
-    // Pré-preencher o prompt de IA
+    if (p.anamnese) document.getElementById('tab-anamnese').textContent = p.anamnese;
+    document.querySelector('#page-soap .ph-sub').textContent = `${p.nome} · Leito ${p.leito} · ${new Date().toLocaleDateString('pt-BR')}`;
+    const ult = p.vitais?.length ? p.vitais[0] : null;
     if (ult) {
       document.getElementById('ai-prompt').value =
         `Paciente ${p.sexo==='F'?'feminina':'masculino'}, ${p.idade||'?'} anos, ${p.diagnostico||'diagnóstico não informado'}. ` +
-        `Leito ${p.leito}. PA: ${ult.pa_sistol||'--'}/${ult.pa_diast||'--'}mmHg, FC: ${ult.fc||'--'}bpm, ` +
-        `SpO2: ${ult.spo2||'--'}%, Temp: ${ult.temperatura||'--'}°C, Glicemia: ${ult.glicemia||'--'}mg/dL. ` +
-        (p.anamnese ? `Anamnese: ${p.anamnese.substring(0,200)}` : '');
+        `PA: ${ult.pa_sistol||'--'}/${ult.pa_diast||'--'}mmHg, FC: ${ult.fc||'--'}bpm, SpO2: ${ult.spo2||'--'}%, Temp: ${ult.temperatura||'--'}°C. ` +
+        (p.anamnese ? p.anamnese.substring(0,200) : '');
     }
     navTo('pacientes');
-  } catch(e) { showNotif('Erro ao carregar paciente'); }
+  } catch(e) { showToast('Erro ao carregar paciente'); }
 }
 
 async function addPatient() {
@@ -685,92 +1046,75 @@ async function addPatient() {
   const leito   = document.getElementById('m-leito').value.trim();
   const sexo    = document.getElementById('m-sexo').value[0];
   const triagem = document.getElementById('m-triagem').value;
-  if (!nome || !leito) { showNotif('Preencha nome e leito'); return; }
+  if (!nome || !leito) { showToast('Preencha nome e leito'); return; }
   try {
-    await api('/api/patients/', {
-      method: 'POST',
-      body: JSON.stringify({ nome, idade, leito, sexo, triagem })
-    });
+    await api('/api/patients/', {method:'POST', body:JSON.stringify({nome,idade,leito,sexo,triagem})});
     await loadPatients();
     closeModal();
-    showNotif(`${nome} cadastrado!`);
-    document.getElementById('m-nome').value = '';
-    document.getElementById('m-idade').value = '';
-    document.getElementById('m-leito').value = '';
-  } catch(e) { showNotif(e.message || 'Erro ao cadastrar'); }
+    showToast(`${nome} cadastrado com sucesso!`);
+    ['m-nome','m-idade','m-leito'].forEach(id => document.getElementById(id).value = '');
+  } catch(e) { showToast(e.message||'Erro ao cadastrar'); }
 }
 
-// ─── IA Clínica ───────────────────────────────────────────────────────────────
 async function runAI() {
   const prompt = document.getElementById('ai-prompt').value.trim();
-  if (!prompt) { showNotif('Descreva o quadro clínico'); return; }
+  if (!prompt) { showToast('Descreva o quadro clínico'); return; }
   const res = document.getElementById('ai-result');
   const btn = document.getElementById('ai-btn');
   res.style.display = 'block';
   btn.disabled = true;
-  btn.innerHTML = '<i class="ti ti-loader"></i>Analisando...';
-  res.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+  btn.innerHTML = '<i class="ti ti-loader" style="animation:spin 1s linear infinite"></i>Analisando...';
+  res.innerHTML = '<div class="dots"><span></span><span></span><span></span></div>';
   try {
-    const data = await api('/api/ai/analisar', { method: 'POST', body: JSON.stringify({ prompt }) });
+    const data = await api('/api/ai/analisar', {method:'POST', body:JSON.stringify({prompt})});
     const text = data?.resultado || 'Erro na análise';
-    res.innerHTML = `<div class="ai-response">${
-      text
-        .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--text);font-weight:600">$1</strong>')
-        .replace(/#{1,3} (.*)/g, '<h4>$1</h4>')
-        .replace(/\n\n/g, '</p><p style="margin-top:10px">')
-        .replace(/\n/g, '<br>')
+    res.innerHTML = `<div class="ai-result">${
+      text.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--text);font-weight:600">$1</strong>')
+          .replace(/#{1,3} (.*)/g,'<h4>$1</h4>')
+          .replace(/\n\n/g,'</p><p style="margin-top:10px">')
+          .replace(/\n/g,'<br>')
     }</div>`;
-    // Registrar na timeline se houver paciente selecionado
     if (currentPatientId) {
-      await api(`/api/patients/${currentPatientId}/timeline`, {
-        method: 'POST',
-        body: JSON.stringify({ descricao: 'Análise IA executada · 3 hipóteses geradas', tipo: 'ia' })
-      });
+      await api(`/api/patients/${currentPatientId}/timeline`, {method:'POST', body:JSON.stringify({descricao:'Análise IA executada',tipo:'ia'})}).catch(()=>{});
     }
   } catch(e) {
-    res.innerHTML = `<div class="ai-response" style="color:var(--amber)">
-      Erro: ${e.message}. Verifique se o backend está rodando e a ANTHROPIC_API_KEY está configurada.
-    </div>`;
+    res.innerHTML = `<div class="ai-result" style="color:var(--amber)">Erro: ${e.message}</div>`;
   }
   btn.disabled = false;
   btn.innerHTML = '<i class="ti ti-sparkles"></i>Analisar com IA';
 }
 
 async function generateSOAP() {
-  showNotif('Gerando SOAP com IA...');
-  const nome = document.getElementById('det-name')?.textContent || 'Paciente';
-  const prompt = document.getElementById('ai-prompt')?.value ||
-    `Paciente: ${nome}. Gere uma evolução SOAP de enfermagem.`;
+  showToast('Gerando SOAP com IA...');
+  const prompt = document.getElementById('ai-prompt')?.value || `Gere uma evolução SOAP de enfermagem.`;
   try {
-    const data = await api('/api/ai/gerar-soap', { method: 'POST', body: JSON.stringify({ prompt }) });
+    const data = await api('/api/ai/gerar-soap', {method:'POST', body:JSON.stringify({prompt})});
     if (data?.S) document.getElementById('soap-s').value = data.S;
     if (data?.O) document.getElementById('soap-o').value = data.O;
     if (data?.A) document.getElementById('soap-a').value = data.A;
     if (data?.P) document.getElementById('soap-p').value = data.P;
-    showNotif('SOAP gerado!');
-  } catch(e) { showNotif(e.message || 'Erro ao gerar SOAP'); }
+    showToast('SOAP gerado!');
+  } catch(e) { showToast(e.message||'Erro ao gerar SOAP'); }
 }
 
 async function saveSOAP() {
-  if (!currentPatientId) { showNotif('Selecione um paciente primeiro'); return; }
-  const soap = {
-    subjetivo: document.getElementById('soap-s').value,
-    objetivo:  document.getElementById('soap-o').value,
-    avaliacao: document.getElementById('soap-a').value,
-    plano:     document.getElementById('soap-p').value,
-  };
+  if (!currentPatientId) { showToast('Selecione um paciente primeiro'); return; }
   try {
-    await api(`/api/soap/${currentPatientId}`, { method: 'POST', body: JSON.stringify(soap) });
-    showNotif('SOAP salvo!');
-  } catch(e) { showNotif(e.message || 'Erro ao salvar'); }
+    await api(`/api/soap/${currentPatientId}`, {method:'POST', body:JSON.stringify({
+      subjetivo: document.getElementById('soap-s').value,
+      objetivo:  document.getElementById('soap-o').value,
+      avaliacao: document.getElementById('soap-a').value,
+      plano:     document.getElementById('soap-p').value,
+    })});
+    showToast('SOAP salvo!');
+  } catch(e) { showToast(e.message||'Erro ao salvar'); }
 }
 
 function copySOAP() {
-  const text = `S — ${document.getElementById('soap-s').value}\n\nO — ${document.getElementById('soap-o').value}\n\nA — ${document.getElementById('soap-a').value}\n\nP — ${document.getElementById('soap-p').value}`;
-  navigator.clipboard.writeText(text).then(() => showNotif('SOAP copiado!'));
+  const t = `S — ${document.getElementById('soap-s').value}\n\nO — ${document.getElementById('soap-o').value}\n\nA — ${document.getElementById('soap-a').value}\n\nP — ${document.getElementById('soap-p').value}`;
+  navigator.clipboard.writeText(t).then(() => showToast('SOAP copiado!'));
 }
 
-// ─── Timeline ─────────────────────────────────────────────────────────────────
 async function addEvent() {
   const text = prompt('Descreva o evento clínico:');
   if (!text) return;
@@ -782,51 +1126,48 @@ async function addEvent() {
   item.innerHTML = `<div class="tl-dot" style="background:var(--teal)"></div><div class="tl-time">${time}</div><div class="tl-text">${text}</div>`;
   tl.appendChild(item);
   if (currentPatientId) {
-    try {
-      await api(`/api/patients/${currentPatientId}/timeline`, {
-        method: 'POST',
-        body: JSON.stringify({ descricao: text, tipo: 'geral' })
-      });
-    } catch(e) {}
+    await api(`/api/patients/${currentPatientId}/timeline`, {method:'POST', body:JSON.stringify({descricao:text,tipo:'geral'})}).catch(()=>{});
   }
-  showNotif('Evento registrado!');
+  showToast('Evento registrado!');
 }
 
-// ─── UI Helpers ───────────────────────────────────────────────────────────────
 function navTo(page, el) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
   if (el) {
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
     el.classList.add('active');
   }
 }
 
 function switchTab(el, id) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   ['anamnese','meds','exames'].forEach(t => {
-    const e = document.getElementById('tab-' + t);
-    if (e) e.style.display = t === id ? 'block' : 'none';
+    const e = document.getElementById('tab-'+t);
+    if (e) e.style.display = t===id ? 'block' : 'none';
   });
 }
 
 function openModal()  { document.getElementById('modal').classList.add('open'); }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 
-let notifTimer;
-function showNotif(msg) {
-  const n = document.getElementById('notif');
-  n.textContent = msg;
-  n.classList.add('show');
-  clearTimeout(notifTimer);
-  notifTimer = setTimeout(() => n.classList.remove('show'), 3000);
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 3200);
 }
 
-// ─── Init ─────────────────────────────────────────────────────────────────────
-document.getElementById('login-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+document.getElementById('login-pass').addEventListener('keydown',  e => { if (e.key==='Enter') doLogin(); });
+document.getElementById('login-email').addEventListener('keydown', e => { if (e.key==='Enter') document.getElementById('login-pass').focus(); });
 
-// Se já tem token salvo, entrar direto
+const style = document.createElement('style');
+style.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+document.head.appendChild(style);
+
 if (authToken && currentUser) {
   document.getElementById('login').classList.remove('active');
   document.getElementById('app').classList.add('active');
