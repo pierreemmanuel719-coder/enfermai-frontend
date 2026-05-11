@@ -665,6 +665,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
           </div>
           <div class="ph-actions">
             <button class="btn btn-ghost" onclick="navTo('dashboard')"><i class="ti ti-arrow-left"></i>Voltar</button>
+            <button class="btn btn-ghost" id="btn-salvar-paciente" onclick="salvarPaciente()" style="border-color:rgba(0,229,176,0.3);color:var(--teal)"><i class="ti ti-device-floppy"></i>Salvar</button>
             <button class="btn btn-primary" onclick="navTo('ia')"><i class="ti ti-sparkles"></i>Analisar com IA</button>
           </div>
         </div>
@@ -675,20 +676,17 @@ tr:hover td{background:rgba(255,255,255,.025)}
               <div class="pname" id="det-name">João Silva</div>
               <div class="pmeta" id="det-meta">58a · M · Leito 14-A</div>
               <div class="pinfo" id="det-info">
-                <div class="prow"><span class="plabel">Admissão</span><span>10/05/2026</span></div>
-                <div class="prow"><span class="plabel">Médico Resp.</span><span>Dr. Santos</span></div>
-                <div class="prow"><span class="plabel">Setor</span><span>UTI Card.</span></div>
-                <div class="prow"><span class="plabel">Diagnóstico</span><span>IAM SSST</span></div>
-                <div class="prow"><span class="plabel">Alergias</span><span style="color:var(--red)">AAS</span></div>
+                <div class="prow"><span class="plabel">Admissão</span><span id="det-admissao">--</span></div>
+                <div class="prow"><span class="plabel">Médico Resp.</span><span id="det-medico">--</span></div>
+                <div class="prow"><span class="plabel">Setor</span><span id="det-setor">--</span></div>
+                <div class="prow"><span class="plabel">Diagnóstico</span><span id="det-diagnostico">--</span></div>
+                <div class="prow"><span class="plabel">Alergias</span><span id="det-alergias" style="color:var(--red)">--</span></div>
               </div>
             </div>
             <div class="pcard" style="margin-top:12px">
               <div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Comorbidades</div>
-              <div style="display:flex;flex-wrap:wrap;gap:6px">
-                <span class="chip chip-amber">HAS</span>
-                <span class="chip chip-amber">DM2</span>
-                <span class="chip chip-red">Tabagismo</span>
-                <span class="chip chip-blue">Dislipidemia</span>
+              <div id="det-comorbidades" style="display:flex;flex-wrap:wrap;gap:6px">
+                <span style="font-size:12px;color:var(--text3)">Nenhuma registrada</span>
               </div>
             </div>
           </div>
@@ -1224,10 +1222,26 @@ function filterTable(q) {
 // ── ESTADO CENTRALIZADO DO PACIENTE ──
 let currentPatient = null;
 
+function vitalStatus(key, val) {
+  const n = parseFloat(val);
+  if (isNaN(n)) return { text: '', color: 'var(--text2)' };
+  const map = {
+    fc:       n < 60  ? ['Bradicardia','var(--amber)'] : n > 100 ? ['Taquicardia','var(--red)']    : ['Normal','var(--green)'],
+    temp:     n >= 38.5?['Febre','var(--red)']         : n >= 37.8?['Subfebril','var(--amber)']    : ['Normal','var(--green)'],
+    spo2:     n < 90  ? ['Crítico','var(--red)']       : n < 95  ? ['Atenção','var(--amber)']      : ['Ar ambiente','var(--green)'],
+    fr:      (n < 12 || n > 20)?['Atenção','var(--amber)']                                         : ['Normal','var(--green)'],
+    glicemia: n < 70  ? ['Hipoglicemia','var(--red)']  : n > 180 ? ['Muito acima','var(--red)']    : n > 140 ? ['Acima do alvo','var(--amber)'] : ['Normal','var(--green)'],
+  };
+  const r = map[key] || ['--','var(--text2)'];
+  return { text: r[0], color: r[1] };
+}
+
 function renderPatient(p) {
   if (!p) return;
   currentPatient   = p;
   currentPatientId = p.id;
+
+  const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val || '--'; };
 
   // — Info básica —
   const initials = p.nome.split(' ').slice(0,2).map(n=>n[0]).join('');
@@ -1236,15 +1250,34 @@ function renderPatient(p) {
   document.getElementById('det-meta').textContent   = `${p.idade||'--'}a · ${p.sexo||'-'} · Leito ${p.leito}`;
   document.getElementById('patient-detail-sub').textContent = `${p.nome} · Leito ${p.leito}`;
 
+  // — Campos do pcard —
+  set('det-admissao',   p.data_admissao ? new Date(p.data_admissao).toLocaleDateString('pt-BR') : (p.admissao || '--'));
+  set('det-medico',     p.medico_responsavel || p.medico || '--');
+  set('det-setor',      p.setor || '--');
+  set('det-diagnostico',p.diagnostico || '--');
+  const alerEl = document.getElementById('det-alergias');
+  if (alerEl) { alerEl.textContent = p.alergias || 'Nenhuma'; alerEl.style.color = p.alergias ? 'var(--red)' : 'var(--text3)'; }
+
+  // — Comorbidades —
+  const comorbEl = document.getElementById('det-comorbidades');
+  if (comorbEl) {
+    const comorbColors = ['chip-amber','chip-red','chip-blue','chip-teal','chip-green'];
+    const lista = Array.isArray(p.comorbidades) ? p.comorbidades : (p.comorbidades ? p.comorbidades.split(',').map(c=>c.trim()) : []);
+    comorbEl.innerHTML = lista.length
+      ? lista.map((c,i) => `<span class="chip ${comorbColors[i%comorbColors.length]}">${c}</span>`).join('')
+      : '<span style="font-size:12px;color:var(--text3)">Nenhuma registrada</span>';
+  }
+
   // — Anamnese —
   document.getElementById('tab-anamnese-text').value = p.anamnese || '';
 
   // — SOAP header —
-  document.querySelector('#page-soap .ph-sub').textContent =
-    `${p.nome} · Leito ${p.leito} · ${new Date().toLocaleDateString('pt-BR')}`;
+  const soapSub = document.querySelector('#page-soap .ph-sub');
+  if (soapSub) soapSub.textContent = `${p.nome} · Leito ${p.leito} · ${new Date().toLocaleDateString('pt-BR')}`;
 
-  // — Sinais vitais —
+  // — Sinais vitais — pega o mais recente
   const ult = p.vitais?.length ? p.vitais[0] : null;
+
   const setVital = (elId, val, unit) => {
     const el = document.getElementById(elId);
     if (el) el.innerHTML = val != null ? `${val}<span class="vunit">${unit}</span>` : `--<span class="vunit">${unit}</span>`;
@@ -1256,26 +1289,77 @@ function renderPatient(p) {
   setVital('v-fr',      ult?.fr,        'irpm');
   setVital('v-glicemia',ult?.glicemia,  'mg/dL');
 
-  const setText = (elId, val) => { const el = document.getElementById(elId); if(el) el.textContent = val||''; };
-  setText('v-pa-diast',       ult?.pa_diast ? `${ult.pa_diast} diastólica` : '');
-  setText('v-fc-status',      ult?.fc != null ? (ult.fc < 60 ? 'Bradicardia' : ult.fc > 100 ? 'Taquicardia' : 'Normal') : '');
-  setText('v-temp-status',    ult?.temperatura != null ? (ult.temperatura >= 38.5 ? 'Febre' : ult.temperatura >= 37.8 ? 'Subfebril' : 'Normal') : '');
-  setText('v-spo2-status',    ult?.spo2 != null ? (ult.spo2 < 90 ? 'Crítico' : ult.spo2 < 95 ? 'Atenção' : 'Ar ambiente') : '');
-  setText('v-fr-status',      ult?.fr != null ? (ult.fr < 12 || ult.fr > 20 ? 'Atenção' : 'Normal') : '');
-  setText('v-glicemia-status',ult?.glicemia != null ? (ult.glicemia < 70 ? 'Hipoglicemia' : ult.glicemia > 180 ? 'Muito acima' : ult.glicemia > 140 ? 'Acima do alvo' : 'Normal') : '');
+  // status com cor
+  const setStatus = (elId, key, val) => {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    if (val == null) { el.textContent = ''; return; }
+    const s = vitalStatus(key, val);
+    el.textContent = s.text;
+    el.style.color = s.color;
+  };
+  // PA: status especial
+  const paDiastEl = document.getElementById('v-pa-diast');
+  if (paDiastEl) {
+    paDiastEl.textContent = ult?.pa_diast ? `${ult.pa_diast} diastólica` : '';
+    paDiastEl.style.color = ult?.pa_sistol > 140 ? 'var(--amber)' : 'var(--green)';
+  }
+  setStatus('v-fc-status',      'fc',       ult?.fc);
+  setStatus('v-temp-status',    'temp',     ult?.temperatura);
+  setStatus('v-spo2-status',    'spo2',     ult?.spo2);
+  setStatus('v-fr-status',      'fr',       ult?.fr);
+  setStatus('v-glicemia-status','glicemia', ult?.glicemia);
 
-  // — Prompt IA sempre atualizado —
+  // — Prompt IA sempre sincronizado com dados atuais —
   const aiPrompt = document.getElementById('ai-prompt');
   if (aiPrompt) {
+    const vitaisStr = ult
+      ? `PA: ${ult.pa_sistol||'--'}/${ult.pa_diast||'--'}mmHg, FC: ${ult.fc||'--'}bpm, SpO2: ${ult.spo2||'--'}%, Temp: ${ult.temperatura||'--'}°C, FR: ${ult.fr||'--'}irpm, Glicemia: ${ult.glicemia||'--'}mg/dL. `
+      : 'Sinais vitais não registrados. ';
     aiPrompt.value =
-      `Paciente ${p.sexo==='F'?'feminina':'masculino'}, ${p.idade||'?'} anos, ${p.diagnostico||'diagnóstico não informado'}. ` +
-      (ult ? `PA: ${ult.pa_sistol||'--'}/${ult.pa_diast||'--'}mmHg, FC: ${ult.fc||'--'}bpm, SpO2: ${ult.spo2||'--'}%, Temp: ${ult.temperatura||'--'}°C. ` : '') +
-      (p.anamnese ? p.anamnese.substring(0,300) : '');
+      `Paciente ${p.sexo==='F'?'feminina':'masculino'}, ${p.idade||'?'} anos, diagnóstico: ${p.diagnostico||'não informado'}. ` +
+      vitaisStr +
+      (p.anamnese ? 'Anamnese: ' + p.anamnese.substring(0,300) : '');
   }
 
-  // — Atualiza lista de pacientes sem recarregar da API —
+  // — Atualiza lista local —
   const idx = patients.findIndex(x => x.id === p.id);
   if (idx >= 0) patients[idx] = p;
+}
+
+
+async function salvarPaciente() {
+  if (!currentPatientId || !currentPatient) { showToast('Nenhum paciente aberto'); return; }
+  const btn = document.getElementById('btn-salvar-paciente');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<i class="ti ti-loader" style="animation:spin 1s linear infinite"></i>Salvando...'; }
+
+  try {
+    // Salva anamnese
+    const anamnese = document.getElementById('tab-anamnese-text').value.trim();
+    await api('/api/patients/' + currentPatientId, {
+      method: 'PATCH',
+      body: JSON.stringify({ anamnese })
+    }).catch(() => {});
+
+    // Salva sinais vitais se houver algum preenchido
+    const ult = currentPatient.vitais?.[0] || {};
+    const temVital = ult.pa_sistol || ult.fc || ult.temperatura || ult.spo2 || ult.fr || ult.glicemia;
+    if (temVital) {
+      await api('/api/patients/' + currentPatientId + '/vitais', {
+        method: 'POST',
+        body: JSON.stringify(ult)
+      }).catch(() => {});
+    }
+
+    // Recarrega dados frescos da API
+    const p = await api('/api/patients/' + currentPatientId);
+    if (p) renderPatient(p);
+    showToast('Paciente salvo com sucesso!');
+  } catch(e) {
+    showToast('Erro ao salvar: ' + (e.message || ''));
+  }
+
+  if (btn) { btn.disabled = false; btn.innerHTML = '<i class="ti ti-device-floppy"></i>Salvar'; }
 }
 
 async function refreshCurrentPatient() {
