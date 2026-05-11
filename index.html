@@ -322,9 +322,17 @@ tr:hover td{background:rgba(255,255,255,.025)}
   border-radius:var(--r);
   padding:14px 16px;
   backdrop-filter:blur(8px);
-  transition:border-color .2s;
+  transition:border-color .2s, box-shadow .2s;
+  cursor:pointer;
+  position:relative;
 }
-.vcard:hover{border-color:var(--border2)}
+.vcard:hover{border-color:var(--teal);box-shadow:0 0 0 1px rgba(0,229,176,0.15)}
+.vcard-edit-hint{position:absolute;top:10px;right:10px;font-size:10px;color:var(--text3);opacity:0;transition:opacity .2s}
+.vcard:hover .vcard-edit-hint{opacity:1}
+.vcard.editing{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,229,176,0.1);cursor:default}
+.vcard-input{width:100%;background:rgba(20,31,53,0.9);border:1px solid rgba(0,229,176,0.3);border-radius:6px;padding:6px 10px;color:var(--text);font-size:18px;font-family:var(--mono);outline:none;margin-top:8px;transition:border .2s;}
+.vcard-input:focus{border-color:var(--teal);box-shadow:0 0 0 2px rgba(0,229,176,0.1)}
+.vcard-hint{font-size:10px;color:var(--text3);margin-top:5px}
 .vlabel{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:9px;display:flex;align-items:center;gap:6px}
 .vval{font-size:23px;font-weight:500;font-family:var(--mono);letter-spacing:-0.03em}
 .vunit{font-size:11px;color:var(--text3);font-family:var(--font);font-weight:400;margin-left:2px}
@@ -686,32 +694,38 @@ tr:hover td{background:rgba(255,255,255,.025)}
           </div>
           <div>
             <div class="vitals-grid">
-              <div class="vcard">
+              <div class="vcard" onclick="editVital(this,'pa','mmHg','Pressão Arterial','ex: 120/80')">
+                <span class="vcard-edit-hint"><i class="ti ti-pencil"></i> editar</span>
                 <div class="vlabel"><i class="ti ti-heart" style="color:var(--red)"></i>Pressão Arterial</div>
                 <div class="vval" style="color:var(--red)" id="v-pa">--<span class="vunit">mmHg</span></div>
                 <div class="vstatus" id="v-pa-diast" style="color:var(--amber)"></div>
               </div>
-              <div class="vcard">
+              <div class="vcard" onclick="editVital(this,'fc','bpm','Freq. Cardíaca','ex: 75')">
+                <span class="vcard-edit-hint"><i class="ti ti-pencil"></i> editar</span>
                 <div class="vlabel"><i class="ti ti-activity" style="color:var(--green)"></i>Freq. Cardíaca</div>
                 <div class="vval" style="color:var(--green)" id="v-fc">--<span class="vunit">bpm</span></div>
                 <div class="vstatus" id="v-fc-status" style="color:var(--green)"></div>
               </div>
-              <div class="vcard">
+              <div class="vcard" onclick="editVital(this,'temp','°C','Temperatura','ex: 36.5')">
+                <span class="vcard-edit-hint"><i class="ti ti-pencil"></i> editar</span>
                 <div class="vlabel"><i class="ti ti-thermometer" style="color:var(--amber)"></i>Temperatura</div>
                 <div class="vval" style="color:var(--amber)" id="v-temp">--<span class="vunit">°C</span></div>
                 <div class="vstatus" id="v-temp-status" style="color:var(--amber)"></div>
               </div>
-              <div class="vcard">
+              <div class="vcard" onclick="editVital(this,'spo2','%','SpO₂','ex: 98')">
+                <span class="vcard-edit-hint"><i class="ti ti-pencil"></i> editar</span>
                 <div class="vlabel"><i class="ti ti-lungs" style="color:var(--blue)"></i>SpO₂</div>
                 <div class="vval" style="color:var(--blue)" id="v-spo2">--<span class="vunit">%</span></div>
                 <div class="vstatus" id="v-spo2-status" style="color:var(--green)"></div>
               </div>
-              <div class="vcard">
+              <div class="vcard" onclick="editVital(this,'fr','irpm','Freq. Resp.','ex: 16')">
+                <span class="vcard-edit-hint"><i class="ti ti-pencil"></i> editar</span>
                 <div class="vlabel"><i class="ti ti-wind" style="color:var(--teal)"></i>Freq. Resp.</div>
                 <div class="vval" style="color:var(--teal)" id="v-fr">--<span class="vunit">irpm</span></div>
                 <div class="vstatus" id="v-fr-status" style="color:var(--green)"></div>
               </div>
-              <div class="vcard">
+              <div class="vcard" onclick="editVital(this,'glicemia','mg/dL','Glicemia','ex: 110')">
+                <span class="vcard-edit-hint"><i class="ti ti-pencil"></i> editar</span>
                 <div class="vlabel"><i class="ti ti-droplet" style="color:var(--purple)"></i>Glicemia</div>
                 <div class="vval" style="color:var(--purple)" id="v-glicemia">--<span class="vunit">mg/dL</span></div>
                 <div class="vstatus" id="v-glicemia-status" style="color:var(--red)"></div>
@@ -1343,6 +1357,126 @@ function showToast(msg) {
   t.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(()=>t.classList.remove('show'), 3200);
+}
+
+
+// ── EDIÇÃO INLINE DE SINAIS VITAIS ──
+const vitalColors = {
+  pa:'var(--red)', fc:'var(--green)', temp:'var(--amber)',
+  spo2:'var(--blue)', fr:'var(--teal)', glicemia:'var(--purple)'
+};
+const vitalUnits = {
+  pa:'mmHg', fc:'bpm', temp:'°C', spo2:'%', fr:'irpm', glicemia:'mg/dL'
+};
+
+function editVital(card, key, unit, label, placeholder) {
+  if (card.classList.contains('editing')) return;
+  card.classList.add('editing');
+
+  const valEl = document.getElementById('v-' + key);
+  const statusEl = document.getElementById('v-' + (key === 'pa' ? 'pa-diast' : key + '-status'));
+
+  // Pega valor atual (sem a unidade)
+  const currentRaw = valEl ? valEl.textContent.replace(unit,'').trim() : '';
+  const currentVal = currentRaw === '--' ? '' : currentRaw;
+
+  // Cria input
+  const wrap = document.createElement('div');
+  wrap.style.marginTop = '8px';
+  wrap.innerHTML = `
+    <input class="vcard-input" id="vinput-${key}" type="text" placeholder="${placeholder}" value="${currentVal}" autocomplete="off">
+    <div class="vcard-hint">Enter para salvar · Esc para cancelar</div>
+  `;
+  card.appendChild(wrap);
+
+  const input = document.getElementById('vinput-' + key);
+  input.focus();
+  input.select();
+
+  function save() {
+    const val = input.value.trim();
+    card.classList.remove('editing');
+    card.removeChild(wrap);
+
+    if (val === '') {
+      if (valEl) valEl.innerHTML = '--<span class="vunit">' + unit + '</span>';
+      if (statusEl) statusEl.textContent = '';
+      return;
+    }
+
+    if (valEl) valEl.innerHTML = val + '<span class="vunit">' + unit + '</span>';
+
+    // Calcula status automático
+    if (statusEl) {
+      let status = '', color = 'var(--text2)';
+      const n = parseFloat(val);
+      if (key === 'fc') {
+        if (n < 60)       { status = 'Bradicardia'; color = 'var(--amber)'; }
+        else if (n > 100) { status = 'Taquicardia'; color = 'var(--red)'; }
+        else              { status = 'Normal';       color = 'var(--green)'; }
+      } else if (key === 'temp') {
+        if (n >= 38.5)    { status = 'Febre';        color = 'var(--red)'; }
+        else if (n >= 37.8){ status = 'Subfebril';   color = 'var(--amber)'; }
+        else              { status = 'Normal';        color = 'var(--green)'; }
+      } else if (key === 'spo2') {
+        if (n < 90)       { status = 'Crítico';      color = 'var(--red)'; }
+        else if (n < 95)  { status = 'Atenção';      color = 'var(--amber)'; }
+        else              { status = 'Ar ambiente';  color = 'var(--green)'; }
+      } else if (key === 'fr') {
+        if (n < 12 || n > 20) { status = 'Atenção'; color = 'var(--amber)'; }
+        else                  { status = 'Normal';   color = 'var(--green)'; }
+      } else if (key === 'glicemia') {
+        if (n > 180)      { status = 'Muito acima';  color = 'var(--red)'; }
+        else if (n > 140) { status = 'Acima do alvo';color = 'var(--amber)'; }
+        else if (n < 70)  { status = 'Hipoglicemia'; color = 'var(--red)'; }
+        else              { status = 'Normal';        color = 'var(--green)'; }
+      } else if (key === 'pa') {
+        const parts = val.split('/');
+        if (parts.length === 2) {
+          const sistol = parseFloat(parts[0]);
+          statusEl.textContent = parts[1] + ' diastólica';
+          statusEl.style.color = sistol > 140 ? 'var(--amber)' : 'var(--green)';
+        }
+        showToast('PA atualizada!');
+        // Salva na API se tiver paciente
+        if (currentPatientId) saveVitalToAPI(key, val);
+        return;
+      }
+      statusEl.textContent = status;
+      statusEl.style.color = color;
+    }
+
+    showToast(label + ' atualizado!');
+    if (currentPatientId) saveVitalToAPI(key, val);
+  }
+
+  function cancel() {
+    card.classList.remove('editing');
+    card.removeChild(wrap);
+  }
+
+  input.addEventListener('keydown', e => {
+    e.stopPropagation();
+    if (e.key === 'Enter') save();
+    if (e.key === 'Escape') cancel();
+  });
+  input.addEventListener('blur', () => setTimeout(save, 150));
+}
+
+async function saveVitalToAPI(key, val) {
+  try {
+    const body = {};
+    if (key === 'pa') {
+      const p = val.split('/');
+      body.pa_sistol = parseFloat(p[0]) || null;
+      body.pa_diast  = parseFloat(p[1]) || null;
+    } else if (key === 'fc')       body.fc          = parseFloat(val);
+    else if (key === 'temp')       body.temperatura = parseFloat(val);
+    else if (key === 'spo2')       body.spo2        = parseFloat(val);
+    else if (key === 'fr')         body.fr          = parseFloat(val);
+    else if (key === 'glicemia')   body.glicemia    = parseFloat(val);
+    await api('/api/patients/' + currentPatientId + '/vitais', {method:'POST', body:JSON.stringify(body)});
+  } catch(e) { /* silencioso se API não suportar */ }
 }
 
 document.getElementById('login-pass').addEventListener('keydown',  e => { if (e.key==='Enter') doLogin(); });
