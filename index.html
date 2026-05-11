@@ -1282,7 +1282,14 @@ function renderPatient(p) {
     const el = document.getElementById(elId);
     if (el) el.innerHTML = val != null ? `${val}<span class="vunit">${unit}</span>` : `--<span class="vunit">${unit}</span>`;
   };
-  setVital('v-pa',      ult?.pa_sistol, 'mmHg');
+  // PA: mostra sistólica/diastólica juntas
+  const paEl = document.getElementById('v-pa');
+  if (paEl) {
+    const s = ult?.pa_sistol, d = ult?.pa_diast;
+    paEl.innerHTML = (s != null && d != null)
+      ? s + '/' + d + '<span class="vunit">mmHg</span>'
+      : (s != null ? s + '<span class="vunit">mmHg</span>' : '--<span class="vunit">mmHg</span>');
+  }
   setVital('v-fc',      ult?.fc,        'bpm');
   setVital('v-temp',    ult?.temperatura,'°C');
   setVital('v-spo2',    ult?.spo2,      '%');
@@ -1301,8 +1308,13 @@ function renderPatient(p) {
   // PA: status especial
   const paDiastEl = document.getElementById('v-pa-diast');
   if (paDiastEl) {
-    paDiastEl.textContent = ult?.pa_diast ? `${ult.pa_diast} diastólica` : '';
-    paDiastEl.style.color = ult?.pa_sistol > 140 ? 'var(--amber)' : 'var(--green)';
+    const s = ult?.pa_sistol;
+    if (s != null) {
+      paDiastEl.textContent = s > 140 ? 'Hipertensão' : s < 90 ? 'Hipotensão' : 'Normal';
+      paDiastEl.style.color = s > 140 ? 'var(--amber)' : s < 90 ? 'var(--red)' : 'var(--green)';
+    } else {
+      paDiastEl.textContent = '';
+    }
   }
   setStatus('v-fc-status',      'fc',       ult?.fc);
   setStatus('v-temp-status',    'temp',     ult?.temperatura);
@@ -1516,118 +1528,111 @@ function editVital(card, key, unit, label, placeholder) {
   if (card.classList.contains('editing')) return;
   card.classList.add('editing');
 
-  const valEl = document.getElementById('v-' + key);
-  const statusEl = document.getElementById('v-' + (key === 'pa' ? 'pa-diast' : key + '-status'));
-
-  // Pega valor atual (sem a unidade)
-  const currentRaw = valEl ? valEl.textContent.replace(unit,'').trim() : '';
-  const currentVal = currentRaw === '--' ? '' : currentRaw;
+  // Pega valor atual do estado do paciente
+  const ult = currentPatient?.vitais?.[0] || {};
+  let currentVal = '';
+  if (key === 'pa') {
+    const s = ult.pa_sistol, d = ult.pa_diast;
+    currentVal = (s && d) ? s + '/' + d : s ? String(s) : '';
+  } else {
+    const keyMap = {fc:'fc', temp:'temperatura', spo2:'spo2', fr:'fr', glicemia:'glicemia'};
+    const v = ult[keyMap[key]];
+    currentVal = v != null ? String(v) : '';
+  }
 
   // Cria input
   const wrap = document.createElement('div');
   wrap.style.marginTop = '8px';
-  wrap.innerHTML = `
-    <input class="vcard-input" id="vinput-${key}" type="text" placeholder="${placeholder}" value="${currentVal}" autocomplete="off">
-    <div class="vcard-hint">Enter para salvar · Esc para cancelar</div>
-  `;
+  const input = document.createElement('input');
+  input.className = 'vcard-input';
+  input.id = 'vinput-' + key;
+  input.type = 'text';
+  input.placeholder = placeholder;
+  input.value = currentVal;
+  input.autocomplete = 'off';
+  const hint = document.createElement('div');
+  hint.className = 'vcard-hint';
+  hint.textContent = 'Enter para salvar · Esc para cancelar';
+  wrap.appendChild(input);
+  wrap.appendChild(hint);
   card.appendChild(wrap);
 
-  const input = document.getElementById('vinput-' + key);
   input.focus();
   input.select();
 
+  let saved = false;
   function save() {
+    if (saved) return;
+    saved = true;
     const val = input.value.trim();
     card.classList.remove('editing');
-    card.removeChild(wrap);
-
-    if (val === '') {
-      if (valEl) valEl.innerHTML = '--<span class="vunit">' + unit + '</span>';
-      if (statusEl) statusEl.textContent = '';
-      return;
-    }
-
-    if (valEl) valEl.innerHTML = val + '<span class="vunit">' + unit + '</span>';
-
-    // Calcula status automático
-    if (statusEl) {
-      let status = '', color = 'var(--text2)';
-      const n = parseFloat(val);
-      if (key === 'fc') {
-        if (n < 60)       { status = 'Bradicardia'; color = 'var(--amber)'; }
-        else if (n > 100) { status = 'Taquicardia'; color = 'var(--red)'; }
-        else              { status = 'Normal';       color = 'var(--green)'; }
-      } else if (key === 'temp') {
-        if (n >= 38.5)    { status = 'Febre';        color = 'var(--red)'; }
-        else if (n >= 37.8){ status = 'Subfebril';   color = 'var(--amber)'; }
-        else              { status = 'Normal';        color = 'var(--green)'; }
-      } else if (key === 'spo2') {
-        if (n < 90)       { status = 'Crítico';      color = 'var(--red)'; }
-        else if (n < 95)  { status = 'Atenção';      color = 'var(--amber)'; }
-        else              { status = 'Ar ambiente';  color = 'var(--green)'; }
-      } else if (key === 'fr') {
-        if (n < 12 || n > 20) { status = 'Atenção'; color = 'var(--amber)'; }
-        else                  { status = 'Normal';   color = 'var(--green)'; }
-      } else if (key === 'glicemia') {
-        if (n > 180)      { status = 'Muito acima';  color = 'var(--red)'; }
-        else if (n > 140) { status = 'Acima do alvo';color = 'var(--amber)'; }
-        else if (n < 70)  { status = 'Hipoglicemia'; color = 'var(--red)'; }
-        else              { status = 'Normal';        color = 'var(--green)'; }
-      } else if (key === 'pa') {
-        const parts = val.split('/');
-        if (parts.length === 2) {
-          const sistol = parseFloat(parts[0]);
-          statusEl.textContent = parts[1] + ' diastólica';
-          statusEl.style.color = sistol > 140 ? 'var(--amber)' : 'var(--green)';
-        }
-        showToast('PA atualizada!');
-        // Salva na API se tiver paciente
-        if (currentPatientId) saveVitalToAPI(key, val);
-        return;
-      }
-      statusEl.textContent = status;
-      statusEl.style.color = color;
-    }
-
-    showToast(label + ' atualizado!');
-    if (currentPatientId) saveVitalToAPI(key, val);
+    if (card.contains(wrap)) card.removeChild(wrap);
+    applyVital(key, val, unit, label);
   }
 
   function cancel() {
+    if (saved) return;
+    saved = true;
     card.classList.remove('editing');
-    card.removeChild(wrap);
+    if (card.contains(wrap)) card.removeChild(wrap);
   }
 
   input.addEventListener('keydown', e => {
     e.stopPropagation();
-    if (e.key === 'Enter') save();
+    if (e.key === 'Enter') { e.preventDefault(); save(); }
     if (e.key === 'Escape') cancel();
   });
-  input.addEventListener('blur', () => setTimeout(save, 150));
+  input.addEventListener('blur', () => setTimeout(save, 200));
+}
+
+function applyVital(key, val, unit, label) {
+  // Atualiza estado local
+  if (!currentPatient) return;
+  if (!currentPatient.vitais) currentPatient.vitais = [{}];
+  if (!currentPatient.vitais[0]) currentPatient.vitais[0] = {};
+
+  const vitais = currentPatient.vitais[0];
+
+  if (val === '') {
+    // Limpa o campo
+    if (key === 'pa') { delete vitais.pa_sistol; delete vitais.pa_diast; }
+    else { const km = {fc:'fc',temp:'temperatura',spo2:'spo2',fr:'fr',glicemia:'glicemia'}; delete vitais[km[key]]; }
+  } else {
+    if (key === 'pa') {
+      const parts = val.split('/');
+      vitais.pa_sistol = parseFloat(parts[0]) || null;
+      vitais.pa_diast  = parts[1] ? parseFloat(parts[1]) : null;
+    } else if (key === 'fc')      vitais.fc          = parseFloat(val);
+    else if (key === 'temp')      vitais.temperatura = parseFloat(val);
+    else if (key === 'spo2')      vitais.spo2        = parseFloat(val);
+    else if (key === 'fr')        vitais.fr          = parseFloat(val);
+    else if (key === 'glicemia')  vitais.glicemia    = parseFloat(val);
+  }
+
+  // Renderiza tudo de uma vez (PA, status, prompt IA)
+  renderPatient(currentPatient);
+
+  if (val !== '') {
+    showToast(label + ' atualizado!');
+    if (currentPatientId) saveVitalToAPI(key, val);
+  }
 }
 
 async function saveVitalToAPI(key, val) {
   try {
-    const body = {};
-    if (key === 'pa') {
-      const p = val.split('/');
-      body.pa_sistol = parseFloat(p[0]) || null;
-      body.pa_diast  = parseFloat(p[1]) || null;
-    } else if (key === 'fc')       body.fc          = parseFloat(val);
-    else if (key === 'temp')       body.temperatura = parseFloat(val);
-    else if (key === 'spo2')       body.spo2        = parseFloat(val);
-    else if (key === 'fr')         body.fr          = parseFloat(val);
-    else if (key === 'glicemia')   body.glicemia    = parseFloat(val);
+    const vitais = currentPatient?.vitais?.[0] || {};
+    // Envia o objeto de vitais completo para garantir consistência
+    const body = {
+      pa_sistol:   vitais.pa_sistol   ?? null,
+      pa_diast:    vitais.pa_diast    ?? null,
+      fc:          vitais.fc          ?? null,
+      temperatura: vitais.temperatura ?? null,
+      spo2:        vitais.spo2        ?? null,
+      fr:          vitais.fr          ?? null,
+      glicemia:    vitais.glicemia    ?? null,
+    };
     await api('/api/patients/' + currentPatientId + '/vitais', {method:'POST', body:JSON.stringify(body)});
-    // Atualiza o estado local sem recarregar tudo
-    if (currentPatient) {
-      if (!currentPatient.vitais) currentPatient.vitais = [{}];
-      if (!currentPatient.vitais[0]) currentPatient.vitais[0] = {};
-      Object.assign(currentPatient.vitais[0], body);
-      // Atualiza prompt da IA automaticamente
-      renderPatient(currentPatient);
-    }
-  } catch(e) { /* silencioso se API não suportar */ }
+  } catch(e) { /* silencioso */ }
 }
 
 
