@@ -1221,43 +1221,76 @@ function filterTable(q) {
   renderTable(patients.filter(p => p.nome.toLowerCase().includes(q.toLowerCase()) || p.leito.toLowerCase().includes(q.toLowerCase())));
 }
 
+// ── ESTADO CENTRALIZADO DO PACIENTE ──
+let currentPatient = null;
+
+function renderPatient(p) {
+  if (!p) return;
+  currentPatient   = p;
+  currentPatientId = p.id;
+
+  // — Info básica —
+  const initials = p.nome.split(' ').slice(0,2).map(n=>n[0]).join('');
+  document.getElementById('det-avatar').textContent = initials;
+  document.getElementById('det-name').textContent   = p.nome;
+  document.getElementById('det-meta').textContent   = `${p.idade||'--'}a · ${p.sexo||'-'} · Leito ${p.leito}`;
+  document.getElementById('patient-detail-sub').textContent = `${p.nome} · Leito ${p.leito}`;
+
+  // — Anamnese —
+  document.getElementById('tab-anamnese-text').value = p.anamnese || '';
+
+  // — SOAP header —
+  document.querySelector('#page-soap .ph-sub').textContent =
+    `${p.nome} · Leito ${p.leito} · ${new Date().toLocaleDateString('pt-BR')}`;
+
+  // — Sinais vitais —
+  const ult = p.vitais?.length ? p.vitais[0] : null;
+  const setVital = (elId, val, unit) => {
+    const el = document.getElementById(elId);
+    if (el) el.innerHTML = val != null ? `${val}<span class="vunit">${unit}</span>` : `--<span class="vunit">${unit}</span>`;
+  };
+  setVital('v-pa',      ult?.pa_sistol, 'mmHg');
+  setVital('v-fc',      ult?.fc,        'bpm');
+  setVital('v-temp',    ult?.temperatura,'°C');
+  setVital('v-spo2',    ult?.spo2,      '%');
+  setVital('v-fr',      ult?.fr,        'irpm');
+  setVital('v-glicemia',ult?.glicemia,  'mg/dL');
+
+  const setText = (elId, val) => { const el = document.getElementById(elId); if(el) el.textContent = val||''; };
+  setText('v-pa-diast',       ult?.pa_diast ? `${ult.pa_diast} diastólica` : '');
+  setText('v-fc-status',      ult?.fc != null ? (ult.fc < 60 ? 'Bradicardia' : ult.fc > 100 ? 'Taquicardia' : 'Normal') : '');
+  setText('v-temp-status',    ult?.temperatura != null ? (ult.temperatura >= 38.5 ? 'Febre' : ult.temperatura >= 37.8 ? 'Subfebril' : 'Normal') : '');
+  setText('v-spo2-status',    ult?.spo2 != null ? (ult.spo2 < 90 ? 'Crítico' : ult.spo2 < 95 ? 'Atenção' : 'Ar ambiente') : '');
+  setText('v-fr-status',      ult?.fr != null ? (ult.fr < 12 || ult.fr > 20 ? 'Atenção' : 'Normal') : '');
+  setText('v-glicemia-status',ult?.glicemia != null ? (ult.glicemia < 70 ? 'Hipoglicemia' : ult.glicemia > 180 ? 'Muito acima' : ult.glicemia > 140 ? 'Acima do alvo' : 'Normal') : '');
+
+  // — Prompt IA sempre atualizado —
+  const aiPrompt = document.getElementById('ai-prompt');
+  if (aiPrompt) {
+    aiPrompt.value =
+      `Paciente ${p.sexo==='F'?'feminina':'masculino'}, ${p.idade||'?'} anos, ${p.diagnostico||'diagnóstico não informado'}. ` +
+      (ult ? `PA: ${ult.pa_sistol||'--'}/${ult.pa_diast||'--'}mmHg, FC: ${ult.fc||'--'}bpm, SpO2: ${ult.spo2||'--'}%, Temp: ${ult.temperatura||'--'}°C. ` : '') +
+      (p.anamnese ? p.anamnese.substring(0,300) : '');
+  }
+
+  // — Atualiza lista de pacientes sem recarregar da API —
+  const idx = patients.findIndex(x => x.id === p.id);
+  if (idx >= 0) patients[idx] = p;
+}
+
+async function refreshCurrentPatient() {
+  if (!currentPatientId) return;
+  try {
+    const p = await api(`/api/patients/${currentPatientId}`);
+    if (p) renderPatient(p);
+  } catch(e) {}
+}
+
 async function viewPatient(id) {
   try {
     const p = await api(`/api/patients/${id}`);
     if (!p) return;
-    currentPatientId = id;
-    const initials = p.nome.split(' ').slice(0,2).map(n=>n[0]).join('');
-    document.getElementById('det-avatar').textContent = initials;
-    document.getElementById('det-name').textContent   = p.nome;
-    document.getElementById('det-meta').textContent   = `${p.idade||'--'}a · ${p.sexo||'-'} · Leito ${p.leito}`;
-    document.getElementById('patient-detail-sub').textContent = `${p.nome} · Leito ${p.leito}`;
-    document.getElementById('tab-anamnese-text').value = p.anamnese || '';
-    document.querySelector('#page-soap .ph-sub').textContent = `${p.nome} · Leito ${p.leito} · ${new Date().toLocaleDateString('pt-BR')}`;
-    const ult = p.vitais?.length ? p.vitais[0] : null;
-    // Preencher cards de sinais vitais com dados reais
-    const setVital = (id, val, unit) => {
-      const el = document.getElementById(id);
-      if (el) el.innerHTML = val ? `${val}<span class="vunit">${unit}</span>` : `--<span class="vunit">${unit}</span>`;
-    };
-    setVital('v-pa',      ult?.pa_sistol, 'mmHg');
-    setVital('v-fc',      ult?.fc,        'bpm');
-    setVital('v-temp',    ult?.temperatura,'°C');
-    setVital('v-spo2',    ult?.spo2,      '%');
-    setVital('v-fr',      ult?.fr,        'irpm');
-    setVital('v-glicemia',ult?.glicemia,  'mg/dL');
-    const setText = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val||''; };
-    setText('v-pa-diast',       ult?.pa_diast ? `${ult.pa_diast} diastólica` : '');
-    setText('v-fc-status',      ult?.fc ? (ult.fc < 60 ? 'Bradicardia' : ult.fc > 100 ? 'Taquicardia' : 'Normal') : '');
-    setText('v-temp-status',    ult?.temperatura ? (ult.temperatura >= 37.8 ? 'Subfebril' : ult.temperatura >= 38.5 ? 'Febre' : 'Normal') : '');
-    setText('v-spo2-status',    ult?.spo2 ? (ult.spo2 >= 95 ? 'Ar ambiente' : 'Atenção') : '');
-    setText('v-fr-status',      ult?.fr ? (ult.fr < 12 || ult.fr > 20 ? 'Atenção' : 'Normal') : '');
-    setText('v-glicemia-status',ult?.glicemia ? (ult.glicemia > 140 ? 'Acima do alvo' : 'Normal') : '');
-    if (ult) {
-      document.getElementById('ai-prompt').value =
-        `Paciente ${p.sexo==='F'?'feminina':'masculino'}, ${p.idade||'?'} anos, ${p.diagnostico||'diagnóstico não informado'}. ` +
-        `PA: ${ult.pa_sistol||'--'}/${ult.pa_diast||'--'}mmHg, FC: ${ult.fc||'--'}bpm, SpO2: ${ult.spo2||'--'}%, Temp: ${ult.temperatura||'--'}°C. ` +
-        (p.anamnese ? p.anamnese.substring(0,200) : '');
-    }
+    renderPatient(p);
     navTo('pacientes');
   } catch(e) { showToast('Erro ao carregar paciente'); }
 }
@@ -1270,11 +1303,13 @@ async function addPatient() {
   const triagem = document.getElementById('m-triagem').value;
   if (!nome || !leito) { showToast('Preencha nome e leito'); return; }
   try {
-    await api('/api/patients/', {method:'POST', body:JSON.stringify({nome,idade,leito,sexo,triagem})});
+    const novo = await api('/api/patients/', {method:'POST', body:JSON.stringify({nome,idade,leito,sexo,triagem})});
     await loadPatients();
     closeModal();
     showToast(`${nome} cadastrado com sucesso!`);
     ['m-nome','m-idade','m-leito'].forEach(id => document.getElementById(id).value = '');
+    // Abre automaticamente o paciente recém-criado se a API retornar o objeto
+    if (novo?.id) viewPatient(novo.id);
   } catch(e) { showToast(e.message||'Erro ao cadastrar'); }
 }
 
@@ -1500,6 +1535,14 @@ async function saveVitalToAPI(key, val) {
     else if (key === 'fr')         body.fr          = parseFloat(val);
     else if (key === 'glicemia')   body.glicemia    = parseFloat(val);
     await api('/api/patients/' + currentPatientId + '/vitais', {method:'POST', body:JSON.stringify(body)});
+    // Atualiza o estado local sem recarregar tudo
+    if (currentPatient) {
+      if (!currentPatient.vitais) currentPatient.vitais = [{}];
+      if (!currentPatient.vitais[0]) currentPatient.vitais[0] = {};
+      Object.assign(currentPatient.vitais[0], body);
+      // Atualiza prompt da IA automaticamente
+      renderPatient(currentPatient);
+    }
   } catch(e) { /* silencioso se API não suportar */ }
 }
 
@@ -1689,7 +1732,12 @@ async function saveAnamnese() {
     });
     showToast('Anamnese salva!');
   } catch(e) {
-    showToast('Anamnese salva localmente!');
+    showToast('Salvo localmente!');
+  }
+  // Atualiza estado local e prompt IA
+  if (currentPatient) {
+    currentPatient.anamnese = text;
+    renderPatient(currentPatient);
   }
 }
 
