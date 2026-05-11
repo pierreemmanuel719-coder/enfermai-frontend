@@ -45,15 +45,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:13
 .screen{display:none;min-height:100vh}
 .screen.active{display:flex;flex-direction:column}
 
-/* ══════════════════════════════
-   LOGIN — GLOWY WAVES
-══════════════════════════════ */
 #login{align-items:center;justify-content:center;background:var(--bg);position:relative;overflow:hidden}
-
-/* canvas waves */
 #login-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
-
-/* ambient glows */
 .login-glow{position:absolute;inset:0;pointer-events:none;z-index:1}
 .login-glow::before{content:'';position:absolute;left:50%;top:0;width:600px;height:600px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse,rgba(0,229,176,0.07) 0%,transparent 70%);filter:blur(40px)}
 .login-glow::after{content:'';position:absolute;right:-100px;bottom:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(ellipse,rgba(77,159,255,0.05) 0%,transparent 70%);filter:blur(40px)}
@@ -70,14 +63,11 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:13
   backdrop-filter:blur(24px);
   -webkit-backdrop-filter:blur(24px);
 }
-
-/* shimmer top edge */
 .login-box::before{
   content:'';position:absolute;top:0;left:20%;right:20%;height:1px;
   background:linear-gradient(90deg,transparent,rgba(0,229,176,0.5),transparent);
   border-radius:50%;
 }
-
 .login-logo{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:8px}
 .login-logo-icon{
   width:46px;height:46px;
@@ -90,7 +80,6 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:13
 .login-logo-icon::after{content:'';position:absolute;inset:-2px;border-radius:16px;background:linear-gradient(135deg,var(--teal),var(--blue));z-index:-1;opacity:0.3;filter:blur(8px)}
 .login-logo-text{font-size:27px;font-weight:700;letter-spacing:-0.05em}
 .login-logo-text span{color:var(--teal)}
-
 .login-badge{
   display:flex;align-items:center;gap:6px;
   background:rgba(0,229,176,0.08);
@@ -101,13 +90,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:13
   margin:0 auto 26px;
 }
 .login-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0;animation:pulse 2s infinite}
-
-/* pill bar */
 .login-pills{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:26px}
 .login-pill{font-size:10.5px;font-weight:500;color:var(--text2);border:1px solid var(--border);border-radius:20px;padding:3px 11px;background:rgba(255,255,255,0.02);letter-spacing:0.03em}
-
 .login-sub{font-size:12.5px;color:var(--text2);text-align:center;margin-bottom:24px;line-height:1.6;font-weight:300}
-.demo-bar{background:rgba(0,229,176,0.06);border:1px solid rgba(0,229,176,0.15);border-radius:var(--r2);padding:10px 14px;font-size:12px;color:var(--teal2);margin-bottom:22px;display:flex;align-items:center;gap:8px}
 .field{margin-bottom:16px}
 .field label{display:block;font-size:10.5px;color:var(--text3);margin-bottom:7px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase}
 .field input,.field select{
@@ -128,7 +113,6 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:13
   box-shadow:0 0 0 3px rgba(0,229,176,0.08);
 }
 .field input::placeholder{color:var(--text3);font-weight:300}
-
 .btn-login{
   width:100%;
   background:linear-gradient(135deg,var(--teal2),#0080ff);
@@ -148,9 +132,6 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:13
 .login-note{text-align:center;font-size:12px;color:var(--text3);margin-top:18px;line-height:1.7;font-weight:300}
 .login-note a{color:var(--teal);text-decoration:none}
 
-/* ══════════════════════════════
-   APP SHELL
-══════════════════════════════ */
 .topbar{
   height:var(--topbar);
   background:rgba(13,23,41,0.85);
@@ -184,12 +165,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:13
 .notif-badge{position:relative}
 .notif-badge::after{content:'2';position:absolute;top:-2px;right:-2px;width:14px;height:14px;border-radius:50%;background:var(--red);color:#fff;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:var(--font)}
 .avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--blue));display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;cursor:pointer;letter-spacing:0.04em;border:2px solid rgba(0,229,176,0.3);box-shadow:0 0 12px rgba(0,229,176,0.2)}
-
 .app-body{display:flex;flex:1;height:calc(100vh - var(--topbar));overflow:hidden}
 
-/* ══════════════════════════════
-   SIDEBAR — GLASS
-══════════════════════════════ */
 .sidebar{
   width:var(--sidebar);
   background:rgba(13,23,41,0.7);
@@ -220,47 +197,23 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:13
 .sidebar-spacer{flex:1}
 .sidebar-divider{height:1px;background:var(--border);margin:10px 0}
 
-/* ══════════════════════════════
-   CONTENT
-══════════════════════════════ */
 .content{flex:1;overflow-y:auto;padding:28px;background:var(--bg)}
 .page{display:none}
 .page.active{display:block}
-
-/* ── PAGE HEADER ── */
 .ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px}
 .ph-title{font-size:20px;font-weight:700;letter-spacing:-0.04em;line-height:1.2}
 .ph-sub{font-size:12px;color:var(--text2);margin-top:4px;font-weight:300}
 .ph-actions{display:flex;gap:8px;flex-shrink:0}
 
-/* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:var(--r2);font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font);transition:all .2s;border:none;letter-spacing:-0.01em}
-.btn-primary{
-  background:linear-gradient(135deg,var(--teal2),#0070e8);
-  color:#fff;
-  box-shadow:0 3px 14px rgba(0,184,138,0.3);
-}
+.btn-primary{background:linear-gradient(135deg,var(--teal2),#0070e8);color:#fff;box-shadow:0 3px 14px rgba(0,184,138,0.3);}
 .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,184,138,0.4)}
-.btn-ghost{
-  background:rgba(20,31,53,0.7);
-  border:1px solid var(--border2);
-  color:var(--text2);
-  backdrop-filter:blur(8px);
-}
+.btn-ghost{background:rgba(20,31,53,0.7);border:1px solid var(--border2);color:var(--text2);backdrop-filter:blur(8px);}
 .btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
 .btn-danger{background:var(--redbg);border:1px solid rgba(255,79,109,0.2);color:var(--red)}
 
-/* ── STATS ── */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
-.stat{
-  background:rgba(13,23,41,0.7);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:18px 20px;
-  position:relative;overflow:hidden;
-  backdrop-filter:blur(12px);
-  transition:border-color .2s,transform .2s;
-}
+.stat{background:rgba(13,23,41,0.7);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden;backdrop-filter:blur(12px);transition:border-color .2s,transform .2s;}
 .stat:hover{border-color:var(--border2);transform:translateY(-2px)}
 .stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,var(--teal)),transparent);opacity:0.7}
 .stat::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(255,255,255,0.02),transparent);pointer-events:none}
@@ -271,14 +224,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:13
 .stat-trend.warn{color:var(--amber)}
 .stat-trend.bad{color:var(--red)}
 
-/* ── TABLE CARD ── */
-.card{
-  background:rgba(13,23,41,0.7);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  overflow:hidden;
-  backdrop-filter:blur(12px);
-}
+.card{background:rgba(13,23,41,0.7);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;backdrop-filter:blur(12px);}
 .card-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
 .card-title{font-size:13.5px;font-weight:600;letter-spacing:-0.02em}
 .search{background:rgba(20,31,53,0.7);border:1px solid var(--border);border-radius:var(--r2);padding:8px 13px;color:var(--text);font-size:12.5px;font-family:var(--font);outline:none;width:210px;backdrop-filter:blur(8px)}
@@ -298,15 +244,8 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .row-btn{color:var(--teal);cursor:pointer;font-size:11.5px;font-weight:500;background:none;border:none;font-family:var(--font);padding:5px 9px;border-radius:6px;transition:background .15s}
 .row-btn:hover{background:var(--tealbg)}
 
-/* ── PATIENT DETAIL ── */
 .detail-layout{display:grid;grid-template-columns:270px 1fr;gap:16px}
-.pcard{
-  background:rgba(13,23,41,0.7);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:22px;
-  backdrop-filter:blur(12px);
-}
+.pcard{background:rgba(13,23,41,0.7);border:1px solid var(--border);border-radius:var(--r);padding:22px;backdrop-filter:blur(12px);}
 .pavatar{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--blue));display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;margin-bottom:16px;box-shadow:0 0 20px rgba(0,229,176,0.25)}
 .pname{font-size:15.5px;font-weight:600;letter-spacing:-0.03em}
 .pmeta{font-size:12px;color:var(--text2);margin-top:3px;margin-bottom:16px}
@@ -314,40 +253,19 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .prow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px}
 .prow:last-child{border-bottom:none}
 .plabel{color:var(--text3)}
-
 .vitals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
-.vcard{
-  background:rgba(13,23,41,0.7);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:14px 16px;
-  backdrop-filter:blur(8px);
-  transition:border-color .2s;
-}
+.vcard{background:rgba(13,23,41,0.7);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;backdrop-filter:blur(8px);transition:border-color .2s;}
 .vcard:hover{border-color:var(--border2)}
 .vlabel{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:9px;display:flex;align-items:center;gap:6px}
 .vval{font-size:23px;font-weight:500;font-family:var(--mono);letter-spacing:-0.03em}
 .vunit{font-size:11px;color:var(--text3);font-family:var(--font);font-weight:400;margin-left:2px}
 .vstatus{font-size:11px;margin-top:5px;font-weight:500}
-
 .tabs{display:flex;gap:3px;background:rgba(13,23,41,0.7);border:1px solid var(--border);border-radius:var(--r2);padding:4px;margin-bottom:14px;backdrop-filter:blur(8px)}
 .tab{flex:1;text-align:center;padding:8px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;color:var(--text2);transition:all .2s;border:1px solid transparent;background:none;font-family:var(--font)}
 .tab.active{background:rgba(27,41,64,0.9);color:var(--teal);border-color:rgba(0,229,176,0.2)}
 
-/* ── AI PANEL ── */
-.ai-panel{
-  background:rgba(13,23,41,0.7);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  overflow:hidden;
-  backdrop-filter:blur(12px);
-}
-.ai-head{
-  padding:16px 20px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:12px;
-  background:linear-gradient(90deg,rgba(0,229,176,0.04),transparent);
-  position:relative;
-}
+.ai-panel{background:rgba(13,23,41,0.7);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;backdrop-filter:blur(12px);}
+.ai-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,rgba(0,229,176,0.04),transparent);position:relative;}
 .ai-head::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,229,176,0.3),transparent)}
 .ai-pulse{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 1.5s infinite;box-shadow:0 0 8px rgba(0,229,176,0.6)}
 .ai-head-label{font-size:13.5px;font-weight:600}
@@ -366,14 +284,12 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .dots span:nth-child(3){animation-delay:.4s}
 @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-9px)}}
 
-/* ── SOAP ── */
 .soap-block{margin-bottom:14px}
 .soap-letter{font-size:28px;font-weight:700;color:var(--teal);font-family:var(--mono);line-height:1;margin-bottom:2px;text-shadow:0 0 20px rgba(0,229,176,0.4)}
 .soap-name{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:600;margin-bottom:9px}
 .soap-area{width:100%;background:rgba(20,31,53,0.7);border:1px solid var(--border);border-radius:var(--r2);padding:11px 14px;color:var(--text);font-size:13px;font-family:var(--font);outline:none;resize:vertical;min-height:62px;transition:border .2s;line-height:1.65;backdrop-filter:blur(8px)}
 .soap-area:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,229,176,0.07)}
 
-/* ── TIMELINE ── */
 .timeline{position:relative;padding-left:26px}
 .timeline::before{content:'';position:absolute;left:7px;top:4px;bottom:4px;width:1px;background:linear-gradient(to bottom,var(--teal),transparent)}
 .tl-item{position:relative;margin-bottom:22px}
@@ -382,47 +298,16 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .tl-text{font-size:13px;color:var(--text2);line-height:1.55}
 .tl-chip{font-size:10px;font-weight:600;color:var(--teal);background:var(--tealbg);border-radius:20px;padding:2px 8px;margin-left:7px}
 
-/* ── MODAL ── */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(12px);z-index:100;display:none;align-items:center;justify-content:center}
 .overlay.open{display:flex}
-.modal{
-  background:rgba(13,23,41,0.9);
-  border:1px solid rgba(99,132,195,0.25);
-  border-radius:22px;
-  padding:32px;
-  width:460px;max-height:90vh;overflow-y:auto;
-  box-shadow:0 40px 80px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.04);
-  backdrop-filter:blur(28px);
-  position:relative;
-}
+.modal{background:rgba(13,23,41,0.9);border:1px solid rgba(99,132,195,0.25);border-radius:22px;padding:32px;width:460px;max-height:90vh;overflow-y:auto;box-shadow:0 40px 80px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.04);backdrop-filter:blur(28px);position:relative;}
 .modal::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(0,229,176,0.4),transparent)}
 .modal-title{font-size:15px;font-weight:700;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;letter-spacing:-0.03em}
 
-/* ── TOAST ── */
-.toast{
-  position:fixed;bottom:22px;right:22px;
-  background:rgba(13,23,41,0.9);
-  border:1px solid var(--border2);
-  border-left:3px solid var(--teal);
-  border-radius:var(--r2);
-  padding:13px 18px;font-size:12.5px;color:var(--text);
-  z-index:200;
-  transform:translateX(120%);
-  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
-  max-width:290px;
-  box-shadow:0 8px 32px rgba(0,0,0,.4);
-  backdrop-filter:blur(20px);
-}
+.toast{position:fixed;bottom:22px;right:22px;background:rgba(13,23,41,0.9);border:1px solid var(--border2);border-left:3px solid var(--teal);border-radius:var(--r2);padding:13px 18px;font-size:12.5px;color:var(--text);z-index:200;transform:translateX(120%);transition:transform .35s cubic-bezier(.34,1.56,.64,1);max-width:290px;box-shadow:0 8px 32px rgba(0,0,0,.4);backdrop-filter:blur(20px);}
 .toast.show{transform:translateX(0)}
 
-/* ── CONFIG ── */
-.cfg-section{
-  background:rgba(13,23,41,0.7);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:22px;margin-bottom:14px;
-  backdrop-filter:blur(12px);
-}
+.cfg-section{background:rgba(13,23,41,0.7);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin-bottom:14px;backdrop-filter:blur(12px);}
 .cfg-title{font-size:11px;font-weight:700;color:var(--text2);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .cfg-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border)}
 .cfg-row:last-child{border-bottom:none}
@@ -433,50 +318,38 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .toggle::after{content:'';position:absolute;width:15px;height:15px;border-radius:50%;background:#fff;top:2px;left:2px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
 .toggle.on::after{transform:translateX(17px)}
 
-/* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(99,132,195,0.2);border-radius:4px}
 ::-webkit-scrollbar-thumb:hover{background:var(--border2)}
 
-/* ── ALERT BAR ── */
-.alert-bar{
-  display:flex;align-items:center;gap:10px;
-  background:rgba(255,79,109,0.06);
-  border:1px solid rgba(255,79,109,.2);
-  border-radius:var(--r2);
-  padding:12px 16px;font-size:12px;color:var(--text2);line-height:1.6;
-  backdrop-filter:blur(8px);
-}
+.alert-bar{display:flex;align-items:center;gap:10px;background:rgba(255,79,109,0.06);border:1px solid rgba(255,79,109,.2);border-radius:var(--r2);padding:12px 16px;font-size:12px;color:var(--text2);line-height:1.6;backdrop-filter:blur(8px);}
 .alert-bar i{color:var(--red);font-size:16px;flex-shrink:0}
 
-/* ── FADE IN ANIMATION ── */
+#register{align-items:center;justify-content:center;background:var(--bg);position:relative;overflow:hidden}
+#register-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .page.active{animation:fadeUp .35s ease both}
 </style>
 </head>
 <body>
 
-<!-- ════════════════════════════════════
-     LOGIN — GLOWY WAVES HERO
-════════════════════════════════════ -->
+<!-- LOGIN -->
 <div id="login" class="screen active">
   <canvas id="login-canvas"></canvas>
   <div class="login-glow"></div>
-
   <div class="login-box">
     <div class="login-logo">
       <div class="login-logo-icon"><i class="ti ti-heartbeat"></i></div>
       <div class="login-logo-text">Enfer<span>MAI</span></div>
     </div>
     <div class="login-badge">Plataforma Clínica v2.0</div>
-
     <div class="login-pills">
       <span class="login-pill">IA Clínica</span>
       <span class="login-pill">SOAP Automatizado</span>
       <span class="login-pill">Tempo Real</span>
     </div>
-
     <p class="login-sub">Assistente inteligente de enfermagem<br>com IA clínica integrada</p>
     <div class="field">
       <label>E-mail institucional</label>
@@ -487,13 +360,75 @@ tr:hover td{background:rgba(255,255,255,.025)}
       <input type="password" id="login-pass" placeholder="••••••••">
     </div>
     <button class="btn-login" onclick="doLogin()"><i class="ti ti-login" style="margin-right:6px"></i>Entrar no EnferMAI</button>
-    <p class="login-note">Acesso restrito a profissionais cadastrados.<br><a href="#">Fale com o administrador</a></p>
+    <p class="login-note">Não tem conta? <a href="#" onclick="showRegister()">Criar conta gratuita</a><br><span style="color:var(--text3)">Acesso restrito a profissionais de enfermagem</span></p>
   </div>
 </div>
 
-<!-- ════════════════════════════════════
-     APP
-════════════════════════════════════ -->
+<!-- CADASTRO -->
+<div id="register" class="screen">
+  <canvas id="register-canvas"></canvas>
+  <div class="login-glow"></div>
+  <div class="login-box" style="width:420px">
+    <div class="login-logo">
+      <div class="login-logo-icon"><i class="ti ti-heartbeat"></i></div>
+      <div class="login-logo-text">Enfer<span>MAI</span></div>
+    </div>
+    <div class="login-badge">Criar Conta</div>
+    <p class="login-sub">Preencha seus dados profissionais<br>para acessar a plataforma</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="field" style="grid-column:1/-1">
+        <label>Nome completo</label>
+        <input type="text" id="r-nome" placeholder="Enf. Nome Sobrenome">
+      </div>
+      <div class="field" style="grid-column:1/-1">
+        <label>E-mail institucional</label>
+        <input type="email" id="r-email" placeholder="enf.nome@hospital.com.br">
+      </div>
+      <div class="field">
+        <label>Senha</label>
+        <input type="password" id="r-pass" placeholder="Mínimo 6 caracteres">
+      </div>
+      <div class="field">
+        <label>Confirmar senha</label>
+        <input type="password" id="r-pass2" placeholder="Repita a senha">
+      </div>
+      <div class="field">
+        <label>COREN</label>
+        <input type="text" id="r-coren" placeholder="123456-RJ">
+      </div>
+      <div class="field">
+        <label>Função</label>
+        <select id="r-funcao">
+          <option value="Enfermeiro">Enfermeiro(a)</option>
+          <option value="Técnico">Técnico(a) de Enfermagem</option>
+          <option value="Auxiliar">Auxiliar de Enfermagem</option>
+          <option value="Coordenador">Coordenador(a)</option>
+        </select>
+      </div>
+      <div class="field" style="grid-column:1/-1">
+        <label>Setor / Unidade</label>
+        <select id="r-setor">
+          <option value="UTI">UTI</option>
+          <option value="UTI Neonatal">UTI Neonatal</option>
+          <option value="Clínica Médica">Clínica Médica</option>
+          <option value="Pronto-Socorro">Pronto-Socorro</option>
+          <option value="Centro Cirúrgico">Centro Cirúrgico</option>
+          <option value="Maternidade">Maternidade</option>
+          <option value="Pediatria">Pediatria</option>
+          <option value="Oncologia">Oncologia</option>
+          <option value="Cardiologia">Cardiologia</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn-login" onclick="doRegister()" id="register-btn">
+      <i class="ti ti-user-plus" style="margin-right:6px"></i>Criar minha conta
+    </button>
+    <p class="login-note">Já tem conta? <a href="#" onclick="showLogin()">Fazer login</a></p>
+  </div>
+</div>
+
+<!-- APP -->
 <div id="app" class="screen" style="flex-direction:column">
   <div class="topbar">
     <div class="topbar-brand">
@@ -525,7 +460,6 @@ tr:hover td{background:rgba(255,255,255,.025)}
       <button class="nav-item" onclick="navTo('config',this)"><i class="ti ti-settings"></i>Configurações</button>
       <button class="nav-item" style="color:var(--red)" onclick="doLogout()"><i class="ti ti-logout"></i>Sair</button>
     </nav>
-
     <div class="content">
 
       <!-- DASHBOARD -->
@@ -567,11 +501,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
             <input class="search" placeholder="Buscar..." oninput="filterTable(this.value)">
           </div>
           <table>
-            <thead>
-              <tr>
-                <th>Paciente</th><th>Leito</th><th>Idade</th><th>Triagem</th><th>PA / FC</th><th>Status</th><th></th>
-              </tr>
-            </thead>
+            <thead><tr><th>Paciente</th><th>Leito</th><th>Idade</th><th>Triagem</th><th>PA / FC</th><th>Status</th><th></th></tr></thead>
             <tbody id="patient-tbody"></tbody>
           </table>
         </div>
@@ -615,46 +545,19 @@ tr:hover td{background:rgba(255,255,255,.025)}
           </div>
           <div>
             <div class="vitals-grid">
-              <div class="vcard">
-                <div class="vlabel"><i class="ti ti-heart" style="color:var(--red)"></i>Pressão Arterial</div>
-                <div class="vval" style="color:var(--red)">150<span class="vunit">mmHg</span></div>
-                <div class="vstatus" style="color:var(--amber)">95 diastólica</div>
-                <div class="vstatus" style="color:var(--text3);font-size:10.5px;font-weight:400;margin-top:2px">Hipertensão Gr II</div>
-              </div>
-              <div class="vcard">
-                <div class="vlabel"><i class="ti ti-activity" style="color:var(--green)"></i>Freq. Cardíaca</div>
-                <div class="vval" style="color:var(--green)">88<span class="vunit">bpm</span></div>
-                <div class="vstatus" style="color:var(--green)">Normal</div>
-              </div>
-              <div class="vcard">
-                <div class="vlabel"><i class="ti ti-thermometer" style="color:var(--amber)"></i>Temperatura</div>
-                <div class="vval" style="color:var(--amber)">37.9<span class="vunit">°C</span></div>
-                <div class="vstatus" style="color:var(--amber)">Subfebril</div>
-              </div>
-              <div class="vcard">
-                <div class="vlabel"><i class="ti ti-lungs" style="color:var(--blue)"></i>SpO₂</div>
-                <div class="vval" style="color:var(--blue)">97<span class="vunit">%</span></div>
-                <div class="vstatus" style="color:var(--green)">Ar ambiente</div>
-              </div>
-              <div class="vcard">
-                <div class="vlabel"><i class="ti ti-wind" style="color:var(--teal)"></i>Freq. Resp.</div>
-                <div class="vval" style="color:var(--teal)">18<span class="vunit">irpm</span></div>
-                <div class="vstatus" style="color:var(--green)">Normal</div>
-              </div>
-              <div class="vcard">
-                <div class="vlabel"><i class="ti ti-droplet" style="color:var(--purple)"></i>Glicemia</div>
-                <div class="vval" style="color:var(--purple)">182<span class="vunit">mg/dL</span></div>
-                <div class="vstatus" style="color:var(--red)">Acima do alvo</div>
-              </div>
+              <div class="vcard"><div class="vlabel"><i class="ti ti-heart" style="color:var(--red)"></i>Pressão Arterial</div><div class="vval" style="color:var(--red)">150<span class="vunit">mmHg</span></div><div class="vstatus" style="color:var(--amber)">95 diastólica</div><div class="vstatus" style="color:var(--text3);font-size:10.5px;font-weight:400;margin-top:2px">Hipertensão Gr II</div></div>
+              <div class="vcard"><div class="vlabel"><i class="ti ti-activity" style="color:var(--green)"></i>Freq. Cardíaca</div><div class="vval" style="color:var(--green)">88<span class="vunit">bpm</span></div><div class="vstatus" style="color:var(--green)">Normal</div></div>
+              <div class="vcard"><div class="vlabel"><i class="ti ti-thermometer" style="color:var(--amber)"></i>Temperatura</div><div class="vval" style="color:var(--amber)">37.9<span class="vunit">°C</span></div><div class="vstatus" style="color:var(--amber)">Subfebril</div></div>
+              <div class="vcard"><div class="vlabel"><i class="ti ti-lungs" style="color:var(--blue)"></i>SpO₂</div><div class="vval" style="color:var(--blue)">97<span class="vunit">%</span></div><div class="vstatus" style="color:var(--green)">Ar ambiente</div></div>
+              <div class="vcard"><div class="vlabel"><i class="ti ti-wind" style="color:var(--teal)"></i>Freq. Resp.</div><div class="vval" style="color:var(--teal)">18<span class="vunit">irpm</span></div><div class="vstatus" style="color:var(--green)">Normal</div></div>
+              <div class="vcard"><div class="vlabel"><i class="ti ti-droplet" style="color:var(--purple)"></i>Glicemia</div><div class="vval" style="color:var(--purple)">182<span class="vunit">mg/dL</span></div><div class="vstatus" style="color:var(--red)">Acima do alvo</div></div>
             </div>
             <div class="tabs">
               <button class="tab active" onclick="switchTab(this,'anamnese')">Anamnese</button>
               <button class="tab" onclick="switchTab(this,'meds')">Medicamentos</button>
               <button class="tab" onclick="switchTab(this,'exames')">Exames</button>
             </div>
-            <div id="tab-anamnese" style="background:rgba(13,23,41,0.7);border:1px solid var(--border);border-radius:var(--r);padding:18px;font-size:13px;color:var(--text2);line-height:1.8;backdrop-filter:blur(8px)">
-              Paciente masculino, 58 anos, admitido na emergência com <strong style="color:var(--text);font-weight:500">dor precordial em aperto</strong> com irradiação para MSE, há 2 horas. Refere dispneia associada e sudorese fria. HAS e DM2 de longa data, tabagismo por 30 anos, parou há 5 anos. Pai faleceu de IAM aos 62 anos.
-            </div>
+            <div id="tab-anamnese" style="background:rgba(13,23,41,0.7);border:1px solid var(--border);border-radius:var(--r);padding:18px;font-size:13px;color:var(--text2);line-height:1.8;backdrop-filter:blur(8px)">Paciente masculino, 58 anos, admitido na emergência com <strong style="color:var(--text);font-weight:500">dor precordial em aperto</strong> com irradiação para MSE, há 2 horas. Refere dispneia associada e sudorese fria. HAS e DM2 de longa data, tabagismo por 30 anos, parou há 5 anos. Pai faleceu de IAM aos 62 anos.</div>
             <div id="tab-meds" style="display:none;background:rgba(13,23,41,0.7);border:1px solid var(--border);border-radius:var(--r);padding:18px;backdrop-filter:blur(8px)">
               <div style="font-size:13px;color:var(--text2)">
                 <div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between"><span>Metformina 500mg</span><span style="color:var(--text3)">2× ao dia</span></div>
@@ -718,39 +621,18 @@ tr:hover td{background:rgba(255,255,255,.025)}
           </div>
         </div>
         <div class="card" style="padding:26px">
-          <div class="soap-block">
-            <div class="soap-letter">S</div>
-            <div class="soap-name">Subjetivo — o que o paciente relata</div>
-            <textarea class="soap-area" id="soap-s">Paciente refere dor precordial 6/10, piora ao esforço. Refere ansiedade e medo do diagnóstico.</textarea>
-          </div>
-          <div class="soap-block" style="margin-top:18px">
-            <div class="soap-letter">O</div>
-            <div class="soap-name">Objetivo — dados mensuráveis</div>
-            <textarea class="soap-area" id="soap-o">PA: 150/95mmHg, FC: 88bpm, T: 37,9°C, SpO₂: 97% AA. Consciente, orientado, pálido, diaforético. Troponina elevada.</textarea>
-          </div>
-          <div class="soap-block" style="margin-top:18px">
-            <div class="soap-letter">A</div>
-            <div class="soap-name">Avaliação — diagnósticos de enfermagem</div>
-            <textarea class="soap-area" id="soap-a">Risco para baixo débito cardíaco. Dor aguda r/c possível isquemia miocárdica. Ansiedade situacional.</textarea>
-          </div>
-          <div class="soap-block" style="margin-top:18px">
-            <div class="soap-letter">P</div>
-            <div class="soap-name">Plano — intervenções de enfermagem</div>
-            <textarea class="soap-area" id="soap-p" style="min-height:100px">Monitorizar SVs a cada 15 min. Realizar ECG 12 derivações. Colher troponina e hemograma. AVP 18G. O₂ 4L/min em máscara. Repouso absoluto. Comunicar médico imediatamente.</textarea>
-          </div>
+          <div class="soap-block"><div class="soap-letter">S</div><div class="soap-name">Subjetivo — o que o paciente relata</div><textarea class="soap-area" id="soap-s">Paciente refere dor precordial 6/10, piora ao esforço. Refere ansiedade e medo do diagnóstico.</textarea></div>
+          <div class="soap-block" style="margin-top:18px"><div class="soap-letter">O</div><div class="soap-name">Objetivo — dados mensuráveis</div><textarea class="soap-area" id="soap-o">PA: 150/95mmHg, FC: 88bpm, T: 37,9°C, SpO₂: 97% AA. Consciente, orientado, pálido, diaforético. Troponina elevada.</textarea></div>
+          <div class="soap-block" style="margin-top:18px"><div class="soap-letter">A</div><div class="soap-name">Avaliação — diagnósticos de enfermagem</div><textarea class="soap-area" id="soap-a">Risco para baixo débito cardíaco. Dor aguda r/c possível isquemia miocárdica. Ansiedade situacional.</textarea></div>
+          <div class="soap-block" style="margin-top:18px"><div class="soap-letter">P</div><div class="soap-name">Plano — intervenções de enfermagem</div><textarea class="soap-area" id="soap-p" style="min-height:100px">Monitorizar SVs a cada 15 min. Realizar ECG 12 derivações. Colher troponina e hemograma. AVP 18G. O₂ 4L/min em máscara. Repouso absoluto. Comunicar médico imediatamente.</textarea></div>
         </div>
       </div>
 
       <!-- TIMELINE -->
       <div id="page-timeline" class="page">
         <div class="ph">
-          <div>
-            <div class="ph-title">Linha do Tempo</div>
-            <div class="ph-sub">João Silva · Atendimento de hoje</div>
-          </div>
-          <div class="ph-actions">
-            <button class="btn btn-primary" onclick="addEvent()"><i class="ti ti-plus"></i>Registrar Evento</button>
-          </div>
+          <div><div class="ph-title">Linha do Tempo</div><div class="ph-sub">João Silva · Atendimento de hoje</div></div>
+          <div class="ph-actions"><button class="btn btn-primary" onclick="addEvent()"><i class="ti ti-plus"></i>Registrar Evento</button></div>
         </div>
         <div class="card" style="padding:26px">
           <div class="timeline" id="timeline-list">
@@ -765,12 +647,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
 
       <!-- CONFIG -->
       <div id="page-config" class="page">
-        <div class="ph">
-          <div>
-            <div class="ph-title">Configurações</div>
-            <div class="ph-sub">Perfil profissional e preferências</div>
-          </div>
-        </div>
+        <div class="ph"><div><div class="ph-title">Configurações</div><div class="ph-sub">Perfil profissional e preferências</div></div></div>
         <div class="cfg-section">
           <div class="cfg-title"><i class="ti ti-user" style="color:var(--teal)"></i>Perfil Profissional</div>
           <div class="cfg-row"><div><div class="cfg-label" id="cfg-nome">—</div><div class="cfg-desc">Nome completo</div></div></div>
@@ -811,9 +688,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
       <div class="field"><label>Leito</label><input type="text" id="m-leito" placeholder="Ex: 14-A"></div>
     </div>
     <div class="field"><label>Sexo</label>
-      <select id="m-sexo">
-        <option>Masculino</option><option>Feminino</option><option>Outro</option>
-      </select>
+      <select id="m-sexo"><option>Masculino</option><option>Feminino</option><option>Outro</option></select>
     </div>
     <div class="field"><label>Triagem Manchester</label>
       <select id="m-triagem">
@@ -833,9 +708,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
 <div class="toast" id="toast"></div>
 
 <script>
-/* ════════════════════════════════════
-   GLOWY WAVES — Login Canvas
-════════════════════════════════════ */
+/* GLOWY WAVES — Login */
 (function initWaves() {
   const canvas = document.getElementById('login-canvas');
   if (!canvas) return;
@@ -843,7 +716,6 @@ tr:hover td{background:rgba(255,255,255,.025)}
   let animId, time = 0;
   const mouse = { x: 0, y: 0 };
   const target = { x: 0, y: 0 };
-
   const waves = [
     { offset: 0,            amp: 65,  freq: 0.003,  color: 'rgba(0,229,176,',  op: 0.45 },
     { offset: Math.PI/2,    amp: 85,  freq: 0.0026, color: 'rgba(77,159,255,', op: 0.35 },
@@ -851,329 +723,281 @@ tr:hover td{background:rgba(255,255,255,.025)}
     { offset: Math.PI*1.5,  amp: 75,  freq: 0.0022, color: 'rgba(167,139,250,',op: 0.22 },
     { offset: Math.PI*2,    amp: 50,  freq: 0.004,  color: 'rgba(0,229,176,',  op: 0.18 },
   ];
-
   function resize() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-    mouse.x = target.x = canvas.width  / 2;
-    mouse.y = target.y = canvas.height / 2;
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    mouse.x = target.x = canvas.width/2; mouse.y = target.y = canvas.height/2;
   }
-
   function drawWave(w) {
-    ctx.save();
-    ctx.beginPath();
-    const influenceR = 300, influence = 65;
+    ctx.save(); ctx.beginPath();
     for (let x = 0; x <= canvas.width; x += 4) {
-      const dx = x - mouse.x;
-      const dy = canvas.height / 2 - mouse.y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      const inf  = Math.max(0, 1 - dist/influenceR);
-      const mfx  = inf * influence * Math.sin(time*0.001 + x*0.01 + w.offset);
-      const y = canvas.height/2
-        + Math.sin(x*w.freq + time*0.002 + w.offset) * w.amp
-        + Math.sin(x*w.freq*0.4 + time*0.003) * (w.amp*0.4)
-        + mfx;
-      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      const dx = x-mouse.x, dy = canvas.height/2-mouse.y;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      const inf = Math.max(0,1-dist/300);
+      const mfx = inf*65*Math.sin(time*0.001+x*0.01+w.offset);
+      const y = canvas.height/2+Math.sin(x*w.freq+time*0.002+w.offset)*w.amp+Math.sin(x*w.freq*0.4+time*0.003)*(w.amp*0.4)+mfx;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
     }
-    ctx.lineWidth   = 2.5;
-    ctx.strokeStyle = w.color + w.op + ')';
-    ctx.globalAlpha = 1;
-    ctx.shadowBlur  = 32;
-    ctx.shadowColor = w.color + '0.6)';
-    ctx.stroke();
-    ctx.restore();
+    ctx.lineWidth=2.5; ctx.strokeStyle=w.color+w.op+')';
+    ctx.shadowBlur=32; ctx.shadowColor=w.color+'0.6)';
+    ctx.stroke(); ctx.restore();
   }
-
   function animate() {
     time++;
-    mouse.x += (target.x - mouse.x) * 0.08;
-    mouse.y += (target.y - mouse.y) * 0.08;
-
-    // deep background gradient
-    const g = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    g.addColorStop(0, '#060d1a');
-    g.addColorStop(1, '#0a1526');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+    mouse.x+=(target.x-mouse.x)*0.08; mouse.y+=(target.y-mouse.y)*0.08;
+    const g=ctx.createLinearGradient(0,0,0,canvas.height);
+    g.addColorStop(0,'#060d1a'); g.addColorStop(1,'#0a1526');
+    ctx.fillStyle=g; ctx.fillRect(0,0,canvas.width,canvas.height);
     waves.forEach(drawWave);
-    animId = requestAnimationFrame(animate);
+    animId=requestAnimationFrame(animate);
   }
-
   resize();
-  window.addEventListener('resize', resize);
-  window.addEventListener('mousemove', e => { target.x = e.clientX; target.y = e.clientY; });
-  window.addEventListener('mouseleave', () => { target.x = canvas.width/2; target.y = canvas.height/2; });
-  animId = requestAnimationFrame(animate);
-
-  // stop animation when login hides (perf)
-  const obs = new MutationObserver(() => {
-    const visible = document.getElementById('login').classList.contains('active');
-    if (!visible && animId) { cancelAnimationFrame(animId); animId = null; }
-    else if (visible && !animId) { animId = requestAnimationFrame(animate); }
+  window.addEventListener('resize',resize);
+  window.addEventListener('mousemove',e=>{target.x=e.clientX;target.y=e.clientY;});
+  window.addEventListener('mouseleave',()=>{target.x=canvas.width/2;target.y=canvas.height/2;});
+  animId=requestAnimationFrame(animate);
+  const obs=new MutationObserver(()=>{
+    const visible=document.getElementById('login').classList.contains('active');
+    if(!visible&&animId){cancelAnimationFrame(animId);animId=null;}
+    else if(visible&&!animId){animId=requestAnimationFrame(animate);}
   });
-  obs.observe(document.getElementById('login'), { attributes: true, attributeFilter: ['class'] });
+  obs.observe(document.getElementById('login'),{attributes:true,attributeFilter:['class']});
 })();
 
-/* ════════════════════════════════════
-   APP LOGIC (inalterado)
-════════════════════════════════════ */
-const API_BASE = 'https://enfermai-production.up.railway.app';
-let authToken = localStorage.getItem('enfermai_token') || null;
-let currentUser = JSON.parse(localStorage.getItem('enfermai_user') || 'null');
-let patients = [];
-let currentPatientId = null;
-const triage = {red:{label:"Vermelho",cls:"chip-red"},orange:{label:"Laranja",cls:"chip-amber"},yellow:{label:"Amarelo",cls:"chip-amber"},green:{label:"Verde",cls:"chip-green"}};
-const statusCls = {Internado:"chip-blue",Crítico:"chip-red","Alta prev.":"chip-green","Obs.":"chip-teal"};
-
-document.getElementById('soap-date').textContent = new Date().toLocaleDateString('pt-BR');
-
-async function api(path, options={}) {
-  const headers = {'Content-Type':'application/json',...(options.headers||{})};
-  if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
-  const resp = await fetch(`${API_BASE}${path}`, {...options, headers});
-  if (resp.status === 401) { doLogout(); return null; }
-  if (!resp.ok) { const e = await resp.json().catch(()=>({})); throw new Error(e.detail||'Erro no servidor'); }
-  return resp.status === 204 ? null : resp.json();
+/* CADASTRO */
+function showRegister() {
+  document.getElementById('login').classList.remove('active');
+  document.getElementById('register').classList.add('active');
+  initRegisterCanvas();
+}
+function showLogin() {
+  document.getElementById('register').classList.remove('active');
+  document.getElementById('login').classList.add('active');
+}
+function initRegisterCanvas() {
+  const canvas = document.getElementById('register-canvas');
+  if (!canvas || canvas._init) return;
+  canvas._init = true;
+  const ctx = canvas.getContext('2d');
+  let time = 0;
+  const mouse = { x: 0, y: 0 }, target = { x: 0, y: 0 };
+  const waves = [
+    { offset: 0,           amp: 65, freq: 0.003,  color: 'rgba(0,229,176,',  op: 0.45 },
+    { offset: Math.PI/2,   amp: 85, freq: 0.0026, color: 'rgba(77,159,255,', op: 0.35 },
+    { offset: Math.PI,     amp: 55, freq: 0.0034, color: 'rgba(0,184,138,',  op: 0.3  },
+    { offset: Math.PI*1.5, amp: 75, freq: 0.0022, color: 'rgba(167,139,250,',op: 0.22 },
+  ];
+  function resize() {
+    canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+    mouse.x=target.x=canvas.width/2; mouse.y=target.y=canvas.height/2;
+  }
+  function drawWave(w) {
+    ctx.save(); ctx.beginPath();
+    for (let x=0;x<=canvas.width;x+=4) {
+      const dx=x-mouse.x,dy=canvas.height/2-mouse.y;
+      const dist=Math.sqrt(dx*dx+dy*dy),inf=Math.max(0,1-dist/300);
+      const mfx=inf*65*Math.sin(time*0.001+x*0.01+w.offset);
+      const y=canvas.height/2+Math.sin(x*w.freq+time*0.002+w.offset)*w.amp+Math.sin(x*w.freq*0.4+time*0.003)*(w.amp*0.4)+mfx;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.lineWidth=2.5;ctx.strokeStyle=w.color+w.op+')';ctx.shadowBlur=32;ctx.shadowColor=w.color+'0.6)';ctx.stroke();ctx.restore();
+  }
+  function animate() {
+    time++;mouse.x+=(target.x-mouse.x)*0.08;mouse.y+=(target.y-mouse.y)*0.08;
+    const g=ctx.createLinearGradient(0,0,0,canvas.height);
+    g.addColorStop(0,'#060d1a');g.addColorStop(1,'#0a1526');
+    ctx.fillStyle=g;ctx.fillRect(0,0,canvas.width,canvas.height);
+    waves.forEach(drawWave);requestAnimationFrame(animate);
+  }
+  resize();window.addEventListener('resize',resize);
+  window.addEventListener('mousemove',e=>{target.x=e.clientX;target.y=e.clientY;});
+  animate();
+}
+async function doRegister() {
+  const nome=document.getElementById('r-nome').value.trim();
+  const email=document.getElementById('r-email').value.trim();
+  const pass=document.getElementById('r-pass').value;
+  const pass2=document.getElementById('r-pass2').value;
+  const coren=document.getElementById('r-coren').value.trim();
+  const funcao=document.getElementById('r-funcao').value;
+  const setor=document.getElementById('r-setor').value;
+  if(!nome||!email||!pass||!coren){showToast('Preencha todos os campos');return;}
+  if(pass.length<6){showToast('Senha deve ter mínimo 6 caracteres');return;}
+  if(pass!==pass2){showToast('As senhas não coincidem');return;}
+  const btn=document.getElementById('register-btn');
+  btn.disabled=true;
+  btn.innerHTML='<i class="ti ti-loader" style="animation:spin 1s linear infinite;margin-right:6px"></i>Criando conta...';
+  try {
+    await api('/api/auth/register',{method:'POST',body:JSON.stringify({nome,email,password:pass,coren,funcao,setor})});
+    showToast('Conta criada com sucesso! Faça login.');
+    document.getElementById('login-email').value=email;
+    document.getElementById('login-pass').value=pass;
+    showLogin();
+  } catch(e) { showToast(e.message||'Erro ao criar conta'); }
+  btn.disabled=false;
+  btn.innerHTML='<i class="ti ti-user-plus" style="margin-right:6px"></i>Criar minha conta';
 }
 
+/* APP LOGIC */
+const API_BASE='https://enfermai-production.up.railway.app';
+let authToken=localStorage.getItem('enfermai_token')||null;
+let currentUser=JSON.parse(localStorage.getItem('enfermai_user')||'null');
+let patients=[],currentPatientId=null;
+const triage={red:{label:"Vermelho",cls:"chip-red"},orange:{label:"Laranja",cls:"chip-amber"},yellow:{label:"Amarelo",cls:"chip-amber"},green:{label:"Verde",cls:"chip-green"}};
+const statusCls={Internado:"chip-blue",Crítico:"chip-red","Alta prev.":"chip-green","Obs.":"chip-teal"};
+
+document.getElementById('soap-date').textContent=new Date().toLocaleDateString('pt-BR');
+
+async function api(path,options={}) {
+  const headers={'Content-Type':'application/json',...(options.headers||{})};
+  if(authToken) headers['Authorization']=`Bearer ${authToken}`;
+  const resp=await fetch(`${API_BASE}${path}`,{...options,headers});
+  if(resp.status===401){doLogout();return null;}
+  if(!resp.ok){const e=await resp.json().catch(()=>({}));throw new Error(e.detail||'Erro no servidor');}
+  return resp.status===204?null:resp.json();
+}
 async function doLogin() {
-  const email = document.getElementById('login-email').value.trim();
-  const pass  = document.getElementById('login-pass').value;
-  if (!email || !pass) { showToast('Preencha e-mail e senha'); return; }
+  const email=document.getElementById('login-email').value.trim();
+  const pass=document.getElementById('login-pass').value;
+  if(!email||!pass){showToast('Preencha e-mail e senha');return;}
   try {
-    const data = await api('/api/auth/login', {method:'POST', body:JSON.stringify({email, password:pass})});
-    if (!data) return;
-    authToken   = data.access_token;
-    currentUser = data.user;
-    localStorage.setItem('enfermai_token', authToken);
-    localStorage.setItem('enfermai_user', JSON.stringify(currentUser));
+    const data=await api('/api/auth/login',{method:'POST',body:JSON.stringify({email,password:pass})});
+    if(!data) return;
+    authToken=data.access_token;currentUser=data.user;
+    localStorage.setItem('enfermai_token',authToken);
+    localStorage.setItem('enfermai_user',JSON.stringify(currentUser));
     document.getElementById('login').classList.remove('active');
     document.getElementById('app').classList.add('active');
-    updateUserUI();
-    await loadPatients();
+    updateUserUI();await loadPatients();
     showToast(`Bem-vindo(a), ${currentUser.nome.split(' ')[0]}! 👋`);
-  } catch(e) { showToast(e.message || 'Falha no login'); }
+  } catch(e){showToast(e.message||'Falha no login');}
 }
-
 function doLogout() {
-  authToken = null; currentUser = null;
-  localStorage.removeItem('enfermai_token');
-  localStorage.removeItem('enfermai_user');
+  authToken=null;currentUser=null;
+  localStorage.removeItem('enfermai_token');localStorage.removeItem('enfermai_user');
   document.getElementById('app').classList.remove('active');
   document.getElementById('login').classList.add('active');
 }
-
 function updateUserUI() {
-  if (!currentUser) return;
-  const initials = currentUser.nome.split(' ').slice(0,2).map(n=>n[0]).join('');
-  document.getElementById('user-avatar').textContent = initials;
-  const hour  = new Date().getHours();
-  const greet = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite';
-  document.getElementById('dash-greeting').textContent = `${greet}, ${currentUser.nome.split(' ')[0]}`;
-  if (document.getElementById('cfg-nome')) {
-    document.getElementById('cfg-nome').textContent    = currentUser.nome;
-    document.getElementById('cfg-coren').textContent   = currentUser.coren || '—';
-    document.getElementById('cfg-funcao').textContent  = `${currentUser.funcao||'—'} · ${currentUser.setor||'—'}`;
+  if(!currentUser) return;
+  const initials=currentUser.nome.split(' ').slice(0,2).map(n=>n[0]).join('');
+  document.getElementById('user-avatar').textContent=initials;
+  const hour=new Date().getHours();
+  const greet=hour<12?'Bom dia':hour<18?'Boa tarde':'Boa noite';
+  document.getElementById('dash-greeting').textContent=`${greet}, ${currentUser.nome.split(' ')[0]}`;
+  if(document.getElementById('cfg-nome')){
+    document.getElementById('cfg-nome').textContent=currentUser.nome;
+    document.getElementById('cfg-coren').textContent=currentUser.coren||'—';
+    document.getElementById('cfg-funcao').textContent=`${currentUser.funcao||'—'} · ${currentUser.setor||'—'}`;
   }
 }
-
 async function loadPatients() {
-  try {
-    patients = await api('/api/patients/') || [];
-    renderTable(patients);
-    updateStats();
-  } catch(e) { showToast('Erro ao carregar pacientes'); }
+  try{patients=await api('/api/patients/')||[];renderTable(patients);updateStats();}
+  catch(e){showToast('Erro ao carregar pacientes');}
 }
-
 function updateStats() {
-  const total = patients.length;
-  const alta  = patients.filter(p=>p.status==='Alta prev.').length;
-  document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-alta').textContent  = alta;
-  document.getElementById('dash-sub').textContent   = `Plantão hoje · ${currentUser?.setor||'UTI'} · ${total} paciente${total!==1?'s':''} ativo${total!==1?'s':''}`;
+  const total=patients.length,alta=patients.filter(p=>p.status==='Alta prev.').length;
+  document.getElementById('stat-total').textContent=total;
+  document.getElementById('stat-alta').textContent=alta;
+  document.getElementById('dash-sub').textContent=`Plantão hoje · ${currentUser?.setor||'UTI'} · ${total} paciente${total!==1?'s':''} ativo${total!==1?'s':''}`;
 }
-
 function renderTable(data) {
-  document.getElementById('patient-tbody').innerHTML = !data.length
-    ? `<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--text3)"><i class="ti ti-users" style="font-size:24px;display:block;margin-bottom:8px"></i>Nenhum paciente cadastrado</td></tr>`
-    : data.map(p => {
-      const ult = p.vitais?.length ? p.vitais[0] : null;
-      const pa  = ult ? `${ult.pa_sistol||'--'}/${ult.pa_diast||'--'}` : '--/--';
-      const fc  = ult ? (ult.fc||'--') : '--';
-      return `<tr>
-        <td><strong style="font-weight:500">${p.nome}</strong></td>
-        <td><span style="font-family:var(--mono);font-size:12px">${p.leito}</span></td>
-        <td>${p.idade||'--'}a · ${p.sexo||'-'}</td>
-        <td><span class="chip ${triage[p.triagem]?.cls||'chip-teal'}">${triage[p.triagem]?.label||p.triagem}</span></td>
-        <td style="font-family:var(--mono);font-size:12px">${pa} / ${fc}</td>
-        <td><span class="chip ${statusCls[p.status]||'chip-blue'}">${p.status||'Internado'}</span></td>
-        <td><button class="row-btn" onclick="viewPatient(${p.id})">Ver →</button></td>
-      </tr>`;
+  document.getElementById('patient-tbody').innerHTML=!data.length
+    ?`<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--text3)"><i class="ti ti-users" style="font-size:24px;display:block;margin-bottom:8px"></i>Nenhum paciente cadastrado</td></tr>`
+    :data.map(p=>{
+      const ult=p.vitais?.length?p.vitais[0]:null;
+      const pa=ult?`${ult.pa_sistol||'--'}/${ult.pa_diast||'--'}`:'--/--';
+      const fc=ult?(ult.fc||'--'):'--';
+      return `<tr><td><strong style="font-weight:500">${p.nome}</strong></td><td><span style="font-family:var(--mono);font-size:12px">${p.leito}</span></td><td>${p.idade||'--'}a · ${p.sexo||'-'}</td><td><span class="chip ${triage[p.triagem]?.cls||'chip-teal'}">${triage[p.triagem]?.label||p.triagem}</span></td><td style="font-family:var(--mono);font-size:12px">${pa} / ${fc}</td><td><span class="chip ${statusCls[p.status]||'chip-blue'}">${p.status||'Internado'}</span></td><td><button class="row-btn" onclick="viewPatient(${p.id})">Ver →</button></td></tr>`;
     }).join('');
 }
-
-function filterTable(q) {
-  renderTable(patients.filter(p => p.nome.toLowerCase().includes(q.toLowerCase()) || p.leito.toLowerCase().includes(q.toLowerCase())));
-}
-
+function filterTable(q){renderTable(patients.filter(p=>p.nome.toLowerCase().includes(q.toLowerCase())||p.leito.toLowerCase().includes(q.toLowerCase())));}
 async function viewPatient(id) {
   try {
-    const p = await api(`/api/patients/${id}`);
-    if (!p) return;
-    currentPatientId = id;
-    const initials = p.nome.split(' ').slice(0,2).map(n=>n[0]).join('');
-    document.getElementById('det-avatar').textContent = initials;
-    document.getElementById('det-name').textContent   = p.nome;
-    document.getElementById('det-meta').textContent   = `${p.idade||'--'}a · ${p.sexo||'-'} · Leito ${p.leito}`;
-    document.getElementById('patient-detail-sub').textContent = `${p.nome} · Leito ${p.leito}`;
-    if (p.anamnese) document.getElementById('tab-anamnese').textContent = p.anamnese;
-    document.querySelector('#page-soap .ph-sub').textContent = `${p.nome} · Leito ${p.leito} · ${new Date().toLocaleDateString('pt-BR')}`;
-    const ult = p.vitais?.length ? p.vitais[0] : null;
-    if (ult) {
-      document.getElementById('ai-prompt').value =
-        `Paciente ${p.sexo==='F'?'feminina':'masculino'}, ${p.idade||'?'} anos, ${p.diagnostico||'diagnóstico não informado'}. ` +
-        `PA: ${ult.pa_sistol||'--'}/${ult.pa_diast||'--'}mmHg, FC: ${ult.fc||'--'}bpm, SpO2: ${ult.spo2||'--'}%, Temp: ${ult.temperatura||'--'}°C. ` +
-        (p.anamnese ? p.anamnese.substring(0,200) : '');
-    }
+    const p=await api(`/api/patients/${id}`);if(!p) return;
+    currentPatientId=id;
+    const initials=p.nome.split(' ').slice(0,2).map(n=>n[0]).join('');
+    document.getElementById('det-avatar').textContent=initials;
+    document.getElementById('det-name').textContent=p.nome;
+    document.getElementById('det-meta').textContent=`${p.idade||'--'}a · ${p.sexo||'-'} · Leito ${p.leito}`;
+    document.getElementById('patient-detail-sub').textContent=`${p.nome} · Leito ${p.leito}`;
+    if(p.anamnese) document.getElementById('tab-anamnese').textContent=p.anamnese;
+    document.querySelector('#page-soap .ph-sub').textContent=`${p.nome} · Leito ${p.leito} · ${new Date().toLocaleDateString('pt-BR')}`;
+    const ult=p.vitais?.length?p.vitais[0]:null;
+    if(ult){document.getElementById('ai-prompt').value=`Paciente ${p.sexo==='F'?'feminina':'masculino'}, ${p.idade||'?'} anos, ${p.diagnostico||'diagnóstico não informado'}. PA: ${ult.pa_sistol||'--'}/${ult.pa_diast||'--'}mmHg, FC: ${ult.fc||'--'}bpm, SpO2: ${ult.spo2||'--'}%, Temp: ${ult.temperatura||'--'}°C. `+(p.anamnese?p.anamnese.substring(0,200):'');}
     navTo('pacientes');
-  } catch(e) { showToast('Erro ao carregar paciente'); }
+  } catch(e){showToast('Erro ao carregar paciente');}
 }
-
 async function addPatient() {
-  const nome    = document.getElementById('m-nome').value.trim();
-  const idade   = parseInt(document.getElementById('m-idade').value) || null;
-  const leito   = document.getElementById('m-leito').value.trim();
-  const sexo    = document.getElementById('m-sexo').value[0];
-  const triagem = document.getElementById('m-triagem').value;
-  if (!nome || !leito) { showToast('Preencha nome e leito'); return; }
-  try {
-    await api('/api/patients/', {method:'POST', body:JSON.stringify({nome,idade,leito,sexo,triagem})});
-    await loadPatients();
-    closeModal();
-    showToast(`${nome} cadastrado com sucesso!`);
-    ['m-nome','m-idade','m-leito'].forEach(id => document.getElementById(id).value = '');
-  } catch(e) { showToast(e.message||'Erro ao cadastrar'); }
+  const nome=document.getElementById('m-nome').value.trim();
+  const idade=parseInt(document.getElementById('m-idade').value)||null;
+  const leito=document.getElementById('m-leito').value.trim();
+  const sexo=document.getElementById('m-sexo').value[0];
+  const triagem=document.getElementById('m-triagem').value;
+  if(!nome||!leito){showToast('Preencha nome e leito');return;}
+  try{await api('/api/patients/',{method:'POST',body:JSON.stringify({nome,idade,leito,sexo,triagem})});await loadPatients();closeModal();showToast(`${nome} cadastrado com sucesso!`);['m-nome','m-idade','m-leito'].forEach(id=>document.getElementById(id).value='');}
+  catch(e){showToast(e.message||'Erro ao cadastrar');}
 }
-
 async function runAI() {
-  const prompt = document.getElementById('ai-prompt').value.trim();
-  if (!prompt) { showToast('Descreva o quadro clínico'); return; }
-  const res = document.getElementById('ai-result');
-  const btn = document.getElementById('ai-btn');
-  res.style.display = 'block';
-  btn.disabled = true;
-  btn.innerHTML = '<i class="ti ti-loader" style="animation:spin 1s linear infinite"></i>Analisando...';
-  res.innerHTML = '<div class="dots"><span></span><span></span><span></span></div>';
+  const prompt=document.getElementById('ai-prompt').value.trim();
+  if(!prompt){showToast('Descreva o quadro clínico');return;}
+  const res=document.getElementById('ai-result'),btn=document.getElementById('ai-btn');
+  res.style.display='block';btn.disabled=true;
+  btn.innerHTML='<i class="ti ti-loader" style="animation:spin 1s linear infinite"></i>Analisando...';
+  res.innerHTML='<div class="dots"><span></span><span></span><span></span></div>';
   try {
-    const data = await api('/api/ai/analisar', {method:'POST', body:JSON.stringify({prompt})});
-    const text = data?.resultado || 'Erro na análise';
-    res.innerHTML = `<div class="ai-result">${
-      text.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--text);font-weight:600">$1</strong>')
-          .replace(/#{1,3} (.*)/g,'<h4>$1</h4>')
-          .replace(/\n\n/g,'</p><p style="margin-top:10px">')
-          .replace(/\n/g,'<br>')
-    }</div>`;
-    if (currentPatientId) {
-      await api(`/api/patients/${currentPatientId}/timeline`, {method:'POST', body:JSON.stringify({descricao:'Análise IA executada',tipo:'ia'})}).catch(()=>{});
-    }
-  } catch(e) {
-    res.innerHTML = `<div class="ai-result" style="color:var(--amber)">Erro: ${e.message}</div>`;
-  }
-  btn.disabled = false;
-  btn.innerHTML = '<i class="ti ti-sparkles"></i>Analisar com IA';
+    const data=await api('/api/ai/analisar',{method:'POST',body:JSON.stringify({prompt})});
+    const text=data?.resultado||'Erro na análise';
+    res.innerHTML=`<div class="ai-result">${text.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--text);font-weight:600">$1</strong>').replace(/#{1,3} (.*)/g,'<h4>$1</h4>').replace(/\n\n/g,'</p><p style="margin-top:10px">').replace(/\n/g,'<br>')}</div>`;
+    if(currentPatientId){await api(`/api/patients/${currentPatientId}/timeline`,{method:'POST',body:JSON.stringify({descricao:'Análise IA executada',tipo:'ia'})}).catch(()=>{});}
+  } catch(e){res.innerHTML=`<div class="ai-result" style="color:var(--amber)">Erro: ${e.message}</div>`;}
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-sparkles"></i>Analisar com IA';
 }
-
 async function generateSOAP() {
   showToast('Gerando SOAP com IA...');
-  const prompt = document.getElementById('ai-prompt')?.value || `Gere uma evolução SOAP de enfermagem.`;
-  try {
-    const data = await api('/api/ai/gerar-soap', {method:'POST', body:JSON.stringify({prompt})});
-    if (data?.S) document.getElementById('soap-s').value = data.S;
-    if (data?.O) document.getElementById('soap-o').value = data.O;
-    if (data?.A) document.getElementById('soap-a').value = data.A;
-    if (data?.P) document.getElementById('soap-p').value = data.P;
+  const prompt=document.getElementById('ai-prompt')?.value||`Gere uma evolução SOAP de enfermagem.`;
+  try{const data=await api('/api/ai/gerar-soap',{method:'POST',body:JSON.stringify({prompt})});
+    if(data?.S) document.getElementById('soap-s').value=data.S;
+    if(data?.O) document.getElementById('soap-o').value=data.O;
+    if(data?.A) document.getElementById('soap-a').value=data.A;
+    if(data?.P) document.getElementById('soap-p').value=data.P;
     showToast('SOAP gerado!');
-  } catch(e) { showToast(e.message||'Erro ao gerar SOAP'); }
+  }catch(e){showToast(e.message||'Erro ao gerar SOAP');}
 }
-
 async function saveSOAP() {
-  if (!currentPatientId) { showToast('Selecione um paciente primeiro'); return; }
-  try {
-    await api(`/api/soap/${currentPatientId}`, {method:'POST', body:JSON.stringify({
-      subjetivo: document.getElementById('soap-s').value,
-      objetivo:  document.getElementById('soap-o').value,
-      avaliacao: document.getElementById('soap-a').value,
-      plano:     document.getElementById('soap-p').value,
-    })});
-    showToast('SOAP salvo!');
-  } catch(e) { showToast(e.message||'Erro ao salvar'); }
+  if(!currentPatientId){showToast('Selecione um paciente primeiro');return;}
+  try{await api(`/api/soap/${currentPatientId}`,{method:'POST',body:JSON.stringify({subjetivo:document.getElementById('soap-s').value,objetivo:document.getElementById('soap-o').value,avaliacao:document.getElementById('soap-a').value,plano:document.getElementById('soap-p').value})});showToast('SOAP salvo!');}
+  catch(e){showToast(e.message||'Erro ao salvar');}
 }
-
-function copySOAP() {
-  const t = `S — ${document.getElementById('soap-s').value}\n\nO — ${document.getElementById('soap-o').value}\n\nA — ${document.getElementById('soap-a').value}\n\nP — ${document.getElementById('soap-p').value}`;
-  navigator.clipboard.writeText(t).then(() => showToast('SOAP copiado!'));
-}
-
+function copySOAP(){const t=`S — ${document.getElementById('soap-s').value}\n\nO — ${document.getElementById('soap-o').value}\n\nA — ${document.getElementById('soap-a').value}\n\nP — ${document.getElementById('soap-p').value}`;navigator.clipboard.writeText(t).then(()=>showToast('SOAP copiado!'));}
 async function addEvent() {
-  const text = prompt('Descreva o evento clínico:');
-  if (!text) return;
-  const tl   = document.getElementById('timeline-list');
-  const now  = new Date();
-  const time = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-  const item = document.createElement('div');
-  item.className = 'tl-item';
-  item.innerHTML = `<div class="tl-dot" style="background:var(--teal)"></div><div class="tl-time">${time}</div><div class="tl-text">${text}</div>`;
+  const text=prompt('Descreva o evento clínico:');if(!text) return;
+  const tl=document.getElementById('timeline-list'),now=new Date();
+  const time=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  const item=document.createElement('div');item.className='tl-item';
+  item.innerHTML=`<div class="tl-dot" style="background:var(--teal)"></div><div class="tl-time">${time}</div><div class="tl-text">${text}</div>`;
   tl.appendChild(item);
-  if (currentPatientId) {
-    await api(`/api/patients/${currentPatientId}/timeline`, {method:'POST', body:JSON.stringify({descricao:text,tipo:'geral'})}).catch(()=>{});
-  }
+  if(currentPatientId){await api(`/api/patients/${currentPatientId}/timeline`,{method:'POST',body:JSON.stringify({descricao:text,tipo:'geral'})}).catch(()=>{});}
   showToast('Evento registrado!');
 }
-
-function navTo(page, el) {
+function navTo(page,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
-  if (el) {
-    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-    el.classList.add('active');
-  }
+  if(el){document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));el.classList.add('active');}
 }
-
-function switchTab(el, id) {
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  ['anamnese','meds','exames'].forEach(t => {
-    const e = document.getElementById('tab-'+t);
-    if (e) e.style.display = t===id ? 'block' : 'none';
-  });
+function switchTab(el,id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');
+  ['anamnese','meds','exames'].forEach(t=>{const e=document.getElementById('tab-'+t);if(e) e.style.display=t===id?'block':'none';});
 }
-
-function openModal()  { document.getElementById('modal').classList.add('open'); }
-function closeModal() { document.getElementById('modal').classList.remove('open'); }
-
+function openModal(){document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
 let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>t.classList.remove('show'), 3200);
-}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3200);}
 
-document.getElementById('login-pass').addEventListener('keydown',  e => { if (e.key==='Enter') doLogin(); });
-document.getElementById('login-email').addEventListener('keydown', e => { if (e.key==='Enter') document.getElementById('login-pass').focus(); });
+document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter') doLogin();});
+document.getElementById('login-email').addEventListener('keydown',e=>{if(e.key==='Enter') document.getElementById('login-pass').focus();});
+const style=document.createElement('style');style.textContent='@keyframes spin{to{transform:rotate(360deg)}}';document.head.appendChild(style);
 
-const style = document.createElement('style');
-style.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
-document.head.appendChild(style);
-
-if (authToken && currentUser) {
-  document.getElementById('login').classList.remove('active');
-  document.getElementById('app').classList.add('active');
-  updateUserUI();
-  loadPatients();
-}
+if(authToken&&currentUser){document.getElementById('login').classList.remove('active');document.getElementById('app').classList.add('active');updateUserUI();loadPatients();}
 </script>
 </body>
 </html>
